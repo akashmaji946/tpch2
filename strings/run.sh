@@ -6,12 +6,12 @@
 #        ./run.sh -a -sf=1    (all three, scale factor 1)
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-TPCH_DIR="/home/akashmaji/Device/IMPORTANT/tpch"
-DUCKDB_RDB="/home/akashmaji/Device/IMPORTANT/rasterdb/build/release/duckdb"
-DUCKDB_SIRIUS="/home/akashmaji/Device/IMPORTANT/sirius/build/release/duckdb"
-DUCKDB_CPU="/home/akashmaji/Device/IMPORTANT/sirius/build/release/duckdb"
+TPCH_DIR="~/Device/IMPORTANT/tpch"
+DUCKDB_RDB="~/Device/IMPORTANT/rasterdb/build/release/duckdb"
+DUCKDB_SIRIUS="~/Device/IMPORTANT/sirius/build/release/duckdb"
+DUCKDB_CPU="~/Device/IMPORTANT/sirius/build/release/duckdb"
 
-export RASTERDF_SHADER_DIR="/home/akashmaji/Device/IMPORTANT/rasterdf/shaders/compiled"
+export RASTERDF_SHADER_DIR="~/Device/IMPORTANT/rasterdf/shaders/compiled"
 
 # Parse arguments
 ENGINE=""

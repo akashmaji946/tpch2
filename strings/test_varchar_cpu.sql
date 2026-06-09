@@ -1,5 +1,5 @@
 -- Test VARCHAR/STRING operations on CPU (plain DuckDB)
--- Run: duckdb < /home/akashmaji/Device/IMPORTANT/tpch/strings/test_varchar_cpu.sql
+-- Run: duckdb < ~/Device/IMPORTANT/tpch/strings/test_varchar_cpu.sql
 
 .timer ON
 

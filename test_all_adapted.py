@@ -2,10 +2,10 @@
 """Quick test: run all adapted queries on RasterDB and report status."""
 import json, subprocess, os, re
 
-QUERIES_JSON = '/home/akashmaji/Device/IMPORTANT/tpch/tpch_queries.json'
+QUERIES_JSON = '~/Device/IMPORTANT/tpch/tpch_queries.json'
 RASTERDB_CLI = os.path.expanduser('~/Device/IMPORTANT/rasterdb/build/release/duckdb')
 RASTERDB_EXT = os.path.expanduser('~/Device/IMPORTANT/rasterdb/build/release/extension/rasterdb/rasterdb.duckdb_extension')
-DB = '/home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db'
+DB = '~/Device/IMPORTANT/tpch/tpch_sf1.db'
 
 with open(QUERIES_JSON) as f:
     queries = json.load(f)

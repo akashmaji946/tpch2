@@ -1,5 +1,5 @@
 -- Test VARCHAR/STRING operations on Sirius (exp branch — uses gpu_processing API)
--- Run: /home/akashmaji/Device/IMPORTANT/sirius/build/release/duckdb -unsigned < /home/akashmaji/Device/IMPORTANT/tpch/strings/test_varchar_sirius.sql
+-- Run: ~/Device/IMPORTANT/sirius/build/release/duckdb -unsigned < ~/Device/IMPORTANT/tpch/strings/test_varchar_sirius.sql
 
 .timer ON
 

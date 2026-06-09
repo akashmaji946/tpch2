@@ -1,10 +1,10 @@
 -- Test VARCHAR/STRING GPU operations (RasterDB)
--- Run: /home/akashmaji/Device/IMPORTANT/rasterdb/build/release/duckdb -unsigned < /home/akashmaji/Device/IMPORTANT/tpch/strings/test_varchar_gpu.sql
+-- Run: ~/Device/IMPORTANT/rasterdb/build/release/duckdb -unsigned < ~/Device/IMPORTANT/tpch/strings/test_varchar_gpu.sql
 
 
 .timer ON
 -- Load extension
-LOAD '/home/akashmaji/Device/IMPORTANT/rasterdb/build/release/extension/rasterdb/rasterdb.duckdb_extension';
+LOAD '~/Device/IMPORTANT/rasterdb/build/release/extension/rasterdb/rasterdb.duckdb_extension';
 
 -- ============================================================================
 -- FILTER tests (VARCHAR comparisons)

@@ -5,11 +5,11 @@
   Suite  : original
   Query  : Q3 — Q3_shipping_priority
   Features: 3-way JOIN, DATE filter, VARCHAR filter, GROUP BY, ORDER BY, LIMIT
-  DB     : /home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db
+  DB     : ~/Device/IMPORTANT/tpch/tpch_sf1.db
 ############################################################
 
 [RasterDB] Running: original/Q3_shipping_priority [Q3]
-[RasterDB] Database: /home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db
+[RasterDB] Database: ~/Device/IMPORTANT/tpch/tpch_sf1.db
 [RasterDB] SQL:
   SELECT l_orderkey, sum(l_extendedprice * (1 - l_discount)) as revenue, o_orderdate, o_shippriority FROM customer, orders, lineitem WHERE c_mktsegment = 'BUILDING' AND c_custkey = o_custkey AND l_orderkey = o_orderkey AND o_orderdate < DATE '1995-03-15' AND l_shipdate > DATE '1995-03-15' GROUP BY l_orderkey, o_orderdate, o_shippriority ORDER BY revenue DESC, o_orderdate
 

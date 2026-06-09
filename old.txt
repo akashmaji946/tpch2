@@ -3,7 +3,7 @@
   TPC-H Benchmark: DuckDB CPU  vs  Sirius (CUDA)  vs  RasterDB (Vulkan)
   Timing = gpu_execute only (parsed from stderr TIMER lines)
 ========================================================================================================================
-  Database    : /home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db
+  Database    : ~/Device/IMPORTANT/tpch/tpch_sf1.db
   Scale Factor: SF=1
   Runs        : 1 warmup + 3 timed → median
   Suite       : adapted

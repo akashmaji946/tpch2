@@ -2,7 +2,7 @@
 """Debug failing queries: show CPU vs RasterDB output side by side."""
 import duckdb, subprocess, os, json
 
-DB = '/home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db'
+DB = '~/Device/IMPORTANT/tpch/tpch_sf1.db'
 CLI = os.path.expanduser('~/Device/IMPORTANT/rasterdb/build/release/duckdb')
 EXT = os.path.expanduser('~/Device/IMPORTANT/rasterdb/build/release/extension/rasterdb/rasterdb.duckdb_extension')
 
