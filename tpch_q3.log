@@ -1,0 +1,375 @@
+
+############################################################
+  TPC-H Query Runner
+  Mode   : rasterdb
+  Suite  : original
+  Query  : Q3 — Q3_shipping_priority
+  Features: 3-way JOIN, DATE filter, VARCHAR filter, GROUP BY, ORDER BY, LIMIT
+  DB     : /home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db
+############################################################
+
+[RasterDB] Running: original/Q3_shipping_priority [Q3]
+[RasterDB] Database: /home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db
+[RasterDB] SQL:
+  SELECT l_orderkey, sum(l_extendedprice * (1 - l_discount)) as revenue, o_orderdate, o_shippriority FROM customer, orders, lineitem WHERE c_mktsegment = 'BUILDING' AND c_custkey = o_custkey AND l_orderkey = o_orderkey AND o_orderdate < DATE '1995-03-15' AND l_shipdate > DATE '1995-03-15' GROUP BY l_orderkey, o_orderdate, o_shippriority ORDER BY revenue DESC, o_orderdate
+
+============================================================
+  Mode     : RasterDB (Vulkan GPU)
+============================================================
+
+[stderr output]
+  [15:45:56] [info] Initializing RasterDB GPU context (Vulkan/rasterdf)...
+  [34m[15:45:56] [DEBUG] Found 3 Vulkan device(s):[0m
+  [34m[15:45:56] [DEBUG]   [0] NVIDIA GeForce RTX 4090 (NVIDIA, Discrete, 24.23 GB VRAM)[0m
+  [34m[15:45:56] [DEBUG]   [1] Intel(R) UHD Graphics 770 (ADL-S GT1) (Intel, Integrated, 94.18 GB VRAM)[0m
+  [34m[15:45:56] [DEBUG]   [2] llvmpipe (LLVM 15.0.7, 256 bits) (Other, Integrated, 125.57 GB VRAM)[0m
+  [34m[15:45:56] [DEBUG] Selected device: NVIDIA GeForce RTX 4090 (NVIDIA, 24.23 GB VRAM)[0m
+  [34m[15:45:56] [DEBUG] Resizable BAR: ENABLED (1/2 device-local heaps are host-visible)[0m
+  [15:45:56] [info] GPU device: NVIDIA GeForce RTX 4090
+  [15:45:56] [info] GPU memory: 24810 MB
+  [15:45:56] [info] Vulkan compute pipelines loaded
+  [15:45:56] [info] Simple Garuda join pipelines loaded
+  [15:45:56] [info] GPU memory manager initialized (19848 MB limit)
+  [15:45:56] [info] Initializing GPUBufferManager: cache=4096 MB, processing=4096 MB, staging=4096 MB
+  [15:45:57] [info]   GPU cache: 4096MB device-local buffer allocated (addr=0x50ee00000)
+  [15:45:57] [info]   CPU staging: 4096MB device-local+host-visible buffer allocated (mapped=0x792760000000)
+  [15:45:58] [info]   CPU download: 4096MB host-cached buffer allocated (mapped=0x792660000000)
+  [15:45:59] [info]   GPU processing: 4096MB device-local buffer allocated (addr=0x80ee00000)
+  [15:45:59] [info] GPUBufferManager initialized successfully
+  [15:45:59] [info] RasterDB extension loaded with Vulkan GPU support
+  [15:45:59] [debug] [TIMER] === Query: SELECT l_orderkey, sum(l_extendedprice * (1 - l_discount)) a...
+  [15:45:59] [info] [RDB_PLAN] Raw logical plan:
+  ORDER_BY types=0 children=1 est_card=0
+    PROJECTION types=0 children=1 est_card=0
+      AGGREGATE types=0 children=1 est_card=0
+        FILTER types=0 children=1 est_card=0
+          CROSS_PRODUCT types=0 children=2 est_card=0
+            CROSS_PRODUCT types=0 children=2 est_card=0
+              GET types=0 children=0 est_card=0
+              GET types=0 children=0 est_card=0
+            GET types=0 children=0 est_card=0
+  
+  [15:45:59] [info] [RDB_PLAN] Optimized logical plan:
+  PROJECTION types=4 children=1 est_card=61995
+    ORDER_BY types=4 children=1 est_card=61995
+      PROJECTION types=4 children=1 est_card=61995
+        PROJECTION types=4 children=1 est_card=61995
+          PROJECTION types=4 children=1 est_card=61995
+            AGGREGATE types=4 children=1 est_card=61995
+              PROJECTION types=5 children=1 est_card=61996
+                COMPARISON_JOIN types=5 children=2 est_card=61996
+                  GET types=3 children=0 est_card=1200243
+                  COMPARISON_JOIN types=4 children=2 est_card=77032
+                    GET types=4 children=0 est_card=300000
+                    FILTER types=1 children=1 est_card=37500
+                      GET types=1 children=0 est_card=37500
+  
+  [15:45:59] [debug] [TIMER]   parse+plan                       0.46 ms
+  [15:45:59] [info] [RDB_PLAN] Executor logical plan:
+  PROJECTION types=4 children=1 est_card=61995
+    ORDER_BY types=4 children=1 est_card=61995
+      PROJECTION types=4 children=1 est_card=61995
+        PROJECTION types=4 children=1 est_card=61995
+          PROJECTION types=4 children=1 est_card=61995
+            AGGREGATE types=4 children=1 est_card=61995
+              PROJECTION types=5 children=1 est_card=61996
+                COMPARISON_JOIN types=5 children=2 est_card=61996
+                  GET types=3 children=0 est_card=1200243
+                  COMPARISON_JOIN types=4 children=2 est_card=77032
+                    GET types=4 children=0 est_card=300000
+                    FILTER types=1 children=1 est_card=37500
+                      GET types=1 children=0 est_card=37500
+  
+  [15:45:59] [debug] [RDB_PLAN] PROJECTION (types=4, children=1)
+  [15:45:59] [debug] [RDB_PLAN]   ORDER_BY (types=4, children=1)
+  [15:45:59] [debug] [RDB_PLAN]     PROJECTION (types=4, children=1)
+  [15:45:59] [debug] [RDB_PLAN]       PROJECTION (types=4, children=1)
+  [15:45:59] [debug] [RDB_PLAN]         PROJECTION (types=4, children=1)
+  [15:45:59] [debug] [RDB_PLAN]           AGGREGATE (types=4, children=1)
+  [15:45:59] [debug] [RDB_PLAN]             PROJECTION (types=5, children=1)
+  [15:45:59] [debug] [RDB_PLAN]               COMPARISON_JOIN (types=5, children=2)
+  [15:45:59] [debug] [RDB_PLAN]                 GET (types=3, children=0)
+  [15:45:59] [debug] [RDB_PLAN]                 COMPARISON_JOIN (types=4, children=2)
+  [15:45:59] [debug] [RDB_PLAN]                   GET (types=4, children=0)
+  [15:45:59] [debug] [RDB_PLAN]                   FILTER (types=1, children=1)
+  [15:45:59] [debug] [RDB_PLAN]                     GET (types=1, children=0)
+  [15:45:59] [info] [RDB_PLAN] Raster physical plan:
+  PROJECTION [PROJECTION]
+    ORDER_BY [ORDER_BY]
+      PROJECTION [PROJECTION]
+        PROJECTION [PROJECTION]
+          PROJECTION [PROJECTION]
+            AGGREGATE [AGGREGATE]
+              PROJECTION [PROJECTION]
+                COMPARISON_JOIN [COMPARISON_JOIN]
+                  GET [GET]
+                  COMPARISON_JOIN [COMPARISON_JOIN]
+                    GET [GET]
+                    FILTER [FILTER]
+                      GET [GET]
+  
+  [15:45:59] [info] [RDB_PLAN] Raster pipeline:
+  SOURCE: GET
+  SOURCE: GET
+  SOURCE: GET
+  OPERATOR: FILTER
+  OPERATOR: COMPARISON_JOIN
+  OPERATOR: COMPARISON_JOIN
+  OPERATOR: PROJECTION
+  SINK: AGGREGATE
+  OPERATOR: PROJECTION
+  OPERATOR: PROJECTION
+  OPERATOR: PROJECTION
+  SINK: ORDER_BY
+  OPERATOR: PROJECTION
+  
+  [15:45:59] [info] [RDB_PLAN] Physical pipeline nodes:
+  SOURCE: GET
+  SOURCE: GET
+  SOURCE: GET
+  OPERATOR: FILTER
+  OPERATOR: COMPARISON_JOIN
+  OPERATOR: COMPARISON_JOIN
+  OPERATOR: PROJECTION
+  SINK: AGGREGATE
+  OPERATOR: PROJECTION
+  OPERATOR: PROJECTION
+  OPERATOR: PROJECTION
+  SINK: ORDER_BY
+  OPERATOR: PROJECTION
+  
+  [15:45:59] [info] [RDB_OP] scheduled op=GET role=SOURCE
+  [15:45:59] [info] [RDB_OP] scheduled op=GET role=SOURCE
+  [15:45:59] [info] [RDB_OP] scheduled op=GET role=SOURCE
+  [15:45:59] [info] [RDB_OP] scheduled op=FILTER role=OPERATOR
+  [15:45:59] [info] [RDB_OP] scheduled op=COMPARISON_JOIN role=OPERATOR
+  [15:45:59] [info] [RDB_OP] scheduled op=COMPARISON_JOIN role=OPERATOR
+  [15:45:59] [info] [RDB_OP] scheduled op=PROJECTION role=OPERATOR
+  [15:45:59] [info] [RDB_OP] scheduled op=AGGREGATE role=SINK
+  [15:45:59] [info] [RDB_OP] scheduled op=PROJECTION role=OPERATOR
+  [15:45:59] [info] [RDB_OP] scheduled op=PROJECTION role=OPERATOR
+  [15:45:59] [info] [RDB_OP] scheduled op=PROJECTION role=OPERATOR
+  [15:45:59] [info] [RDB_OP] scheduled op=ORDER_BY role=SINK
+  [15:45:59] [info] [RDB_OP] scheduled op=PROJECTION role=OPERATOR
+  [15:45:59] [debug] GPU execute_projection
+  [15:45:59] [debug] GPU execute_order
+  [15:45:59] [debug] GPU execute_projection
+  [15:45:59] [debug] GPU execute_projection
+  [15:45:59] [debug] GPU execute_projection
+  [15:45:59] [debug] GPU execute_aggregate
+  [15:45:59] [debug] GPU execute_projection
+  [15:45:59] [debug] GPU execute_join (simple_garuda=true)
+  [15:45:59] [debug] [RDB_DEBUG] JOIN: 1 conditions
+  [15:45:59] [debug] [RDB_DEBUG]   cond[0]: cmp=EQUAL left=l_orderkey right=o_orderkey
+  [15:45:59] [debug] GPU execute_get: seq_scan
+  [15:45:59] [debug] [RDB_DEBUG] GET 'seq_scan': table_filters=1
+  [15:45:59] [debug] [RDB_DEBUG]   column_ids(4): 0 10 5 6
+  [15:45:59] [debug] [RDB_DEBUG]   projection_ids(3): 0 2 3
+  [15:45:59] [debug] [RDB_DEBUG]   names(16): l_orderkey l_partkey l_suppkey l_linenumber l_quantity l_extendedprice l_discount l_tax l_returnflag l_linestatus l_shipdate l_commitdate l_receiptdate l_shipinstruct l_shipmode l_comment
+  [15:45:59] [debug] [RDB_DEBUG]   bindings(3): (2,0) (2,2) (2,3)
+  [15:45:59] [debug] [RDB_DEBUG]   staging sized from table stats: 6305371 rows
+  [15:45:59] [info] [TIMER]   cpu_scan                        49.25 ms
+  [15:45:59] [debug] [TIMER]   scan: lineitem 3241776 rows x 3 cols
+  [15:45:59] [debug] [RDB_DEBUG]     gpu_upload_detail: 3 cols, 77802624 bytes (reBAR zero-copy VRAM)
+  [15:45:59] [debug] [TIMER]   gpu_upload                        0.00 ms (reBAR zero-copy)
+  [15:45:59] [info] [RDB_OP] op=GET rows_in=-1 rows_out=3241776 time_ms=49.292
+  [15:45:59] [debug] GPU execute_join (simple_garuda=true)
+  [15:45:59] [debug] [RDB_DEBUG] JOIN: 1 conditions
+  [15:45:59] [debug] [RDB_DEBUG]   cond[0]: cmp=EQUAL left=o_custkey right=c_custkey
+  [15:45:59] [debug] GPU execute_get: seq_scan
+  [15:45:59] [debug] [RDB_DEBUG] GET 'seq_scan': table_filters=1
+  [15:45:59] [debug] [RDB_DEBUG]   column_ids(4): 1 0 4 7
+  [15:45:59] [debug] [RDB_DEBUG]   projection_ids(4): 0 1 2 3
+  [15:45:59] [debug] [RDB_DEBUG]   names(9): o_orderkey o_custkey o_orderstatus o_totalprice o_orderdate o_orderpriority o_clerk o_shippriority o_comment
+  [15:45:59] [debug] [RDB_DEBUG]   bindings(4): (1,0) (1,1) (1,2) (1,3)
+  [15:45:59] [debug] [RDB_DEBUG]   staging sized from table stats: 1579096 rows
+  [15:45:59] [info] [TIMER]   cpu_scan                        10.84 ms
+  [15:45:59] [debug] [TIMER]   scan: orders 727305 rows x 4 cols
+  [15:45:59] [debug] [RDB_DEBUG]     gpu_upload_detail: 4 cols, 17455320 bytes (reBAR zero-copy VRAM)
+  [15:45:59] [debug] [TIMER]   gpu_upload                        0.00 ms (reBAR zero-copy)
+  [15:45:59] [info] [RDB_OP] op=GET rows_in=-1 rows_out=727305 time_ms=10.858
+  [15:45:59] [debug] GPU execute_filter
+  [15:45:59] [debug] GPU execute_get: seq_scan
+  [15:45:59] [debug] [RDB_DEBUG] GET 'seq_scan': table_filters=1
+  [15:45:59] [debug] [RDB_DEBUG]   column_ids(2): 6 0
+  [15:45:59] [debug] [RDB_DEBUG]   projection_ids(1): 1
+  [15:45:59] [debug] [RDB_DEBUG]   names(8): c_custkey c_name c_address c_nationkey c_phone c_acctbal c_mktsegment c_comment
+  [15:45:59] [debug] [RDB_DEBUG]   bindings(1): (0,1)
+  [15:45:59] [debug] [RDB_DEBUG]   staging sized from table stats: 161596 rows
+  [15:45:59] [info] [TIMER]   cpu_scan                         0.93 ms
+  [15:45:59] [debug] [TIMER]   scan: customer 30142 rows x 1 cols
+  [15:45:59] [debug] [RDB_DEBUG]     gpu_upload_detail: 1 cols, 241136 bytes (reBAR zero-copy VRAM)
+  [15:45:59] [debug] [TIMER]   gpu_upload                        0.00 ms (reBAR zero-copy)
+  [15:45:59] [info] [RDB_OP] op=GET rows_in=-1 rows_out=30142 time_ms=0.972
+  [15:45:59] [debug] Filter input: 30142 rows x 1 cols
+  [15:45:59] [debug]   input col 0: 30142 rows, type=4, addr=26208592640
+  [15:45:59] [debug] [RDB_DEBUG] FILTER: 1 expressions, 30142 rows x 1 cols
+  [15:45:59] [debug] [RDB_DEBUG] HAVING: GPU INT64 compare on 30142 rows
+  [15:45:59] [debug] [TIMER]     filter_compare                 0.75 ms
+  [15:45:59] [debug] Filter (GPU compaction): 30142 -> 30142 rows
+  [15:45:59] [debug] Filter result: 30142 rows x 1 cols
+  [15:45:59] [debug] [TIMER]     filter_compact                 7.63 ms
+  [15:45:59] [debug] [RDB_DEBUG] filter: 30142 rows => 30142 rows
+  [15:45:59] [info] [TIMER]   filter (total)                   8.38 ms
+  [15:45:59] [info] [RDB_OP] op=FILTER rows_in=37500 rows_out=30142 time_ms=9.358
+  [15:45:59] [debug] JOIN: left 727305 rows x 4 cols, right 30142 rows x 1 cols
+  [15:45:59] [debug] [RDB_DEBUG] JOIN keys: L col[0] addr=0x617e51900 size=727305, R col[0] addr=0x5e3b100 size=30142
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] n_a=30142 n_b=727305 k=28 num_slots=268435456 int64=1[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] max_range=2 (instanced vertex count per B-record)[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] total_matches=147126[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] TIMING: sub1(count+scan+build)=27.9 sub2(instanced_probe)=2.1 total=36.1 ms[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] matches=147126[0m
+  [15:45:59] [debug] JOIN: 147126 matches after first condition
+  [15:45:59] [debug] JOIN result: 147126 rows x 5 cols
+  [15:45:59] [debug] JOIN projection_map: 5 cols => 4 cols (left_map=true right_map=false)
+  [15:45:59] [info] [TIMER]   join                            37.40 ms
+  [15:45:59] [info] [RDB_OP] op=COMPARISON_JOIN rows_in=300000 rows_out=147126 time_ms=57.620
+  [15:45:59] [debug] JOIN: left 3241776 rows x 3 cols, right 147126 rows x 4 cols
+  [15:45:59] [debug] [RDB_DEBUG] JOIN keys: L col[0] addr=0x60ee00000 size=3241776, R col[0] addr=0xc69b5600 size=147126
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] n_a=147126 n_b=3241776 k=28 num_slots=268435456 int64=1[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] max_range=2 (instanced vertex count per B-record)[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] total_matches=30519[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] TIMING: sub1(count+scan+build)=28.3 sub2(instanced_probe)=8.9 total=41.2 ms[0m
+  [34m[15:45:59] [DEBUG] [SG_JOIN_OPT] matches=30519[0m
+  [15:45:59] [debug] JOIN: 30519 matches after first condition
+  [15:45:59] [debug] JOIN result: 30519 rows x 7 cols
+  [15:45:59] [debug] JOIN projection_map: 7 cols => 5 cols (left_map=true right_map=true)
+  [15:45:59] [info] [TIMER]   join                            43.18 ms
+  [15:45:59] [info] [RDB_OP] op=COMPARISON_JOIN rows_in=1200243 rows_out=30519 time_ms=150.098
+  [15:45:59] [info] [TIMER]   projection                       0.70 ms
+  [15:45:59] [info] [RDB_OP] op=PROJECTION rows_in=61996 rows_out=30519 time_ms=150.806
+  [15:45:59] [debug] GPU execute_grouped_aggregate: 3 groups, 1 aggs
+  [15:45:59] [debug] GROUP BY 3 cols, 30519 rows
+  [15:45:59] [debug] [RDB_DEBUG] GROUP BY col indices: 2 3 4 (input has 5 cols)
+  [15:45:59] [debug] [RDB_DEBUG] GROUP BY max_vals: col[2]=2940514 col[3]=9203 col[4]=0 composite_estimate=294463308139607 is_int64=1
+  [15:45:59] [debug] [RDB_DEBUG] INT64 composite: 30519 rows, base1=9204, base2=1, has_float=false
+  [15:45:59] [debug] [RDB_DEBUG] GFXM surrogate mapping: 11620 unique keys
+  [15:45:59] [info] [TIMER]     groupby_composite_key          2.64 ms
+  [15:45:59] [debug]      [GFXM] Engine initialized
+  [15:45:59] [debug]      [GFXM] Aggregate 1/1: sum (type=0, count_star=false)
+  [15:45:59] [debug]      [GFXM] Value column evaluated, addr=0xc8f0fc00
+  [15:45:59] [debug]      [GFXM] Input rows: 30519
+  [34m[15:45:59] [DEBUG]   [GFXm Perf] Hash table allocation: 0.000225 ms
+  [0m
+  [34m[15:45:59] [DEBUG]   [GFXm Perf] Init + mesh aggregate: 0.118788 ms
+  [0m
+  [34m[15:45:59] [DEBUG]   [GFXm Perf] Readback unique count: 0.033003 ms
+  [0m
+  [34m[15:45:59] [DEBUG]   [GFXm Perf] Extract: 0.042056 ms
+  [0m
+  [34m[15:45:59] [DEBUG]   [GFXm Perf] Total: 0.194072 ms
+  [0m
+  [15:45:59] [debug]      [GFXM] gfxm_groupby_aggregate time: 0.20 ms
+  [15:45:59] [debug] [GFXM_DBG] agg=0 out_num_groups=11620
+  [15:45:59] [debug] [GFXM_DBG] raw out_keys: 5352 875 5669 11516 5288 1950 7444 9976 409 9328
+  [15:45:59] [debug] [GFXM_DBG] raw out_values(i64): 939837128 539112466 426679760 615662356 319040920 1339326800 2029244200 548945148 1134062580 581246632
+  [15:45:59] [debug]      [GFXM] Output groups: 11620
+  [15:45:59] [debug]      [GFXM] Key type: INT32, elem_size=4
+  [15:45:59] [debug]      [GFXM] Download keys time: 0.13 ms
+  [15:45:59] [debug]      [GFXM] Sort permutation time: 0.46 ms
+  [15:45:59] [debug]      [GFXM] Value elem_size=8
+  [15:45:59] [debug]      [GFXM] Download values time: 0.14 ms
+  [15:45:59] [debug]      [GFXM] Apply permutation time: 0.02 ms
+  [15:45:59] [debug]      [GFXM] Mixed-radix decomposition / Surrogate map-back
+  [15:45:59] [debug] [GFXM_DBG] decompose: num_group_cols=3 base1=9204 base2=1 surr_empty=false keys_i64=false
+  [15:45:59] [debug]      [GFXM] Upload sorted values time: 0.03 ms
+  [15:45:59] [debug] GROUP BY result: 11620 groups, 4 output cols
+  [15:45:59] [info] [TIMER]   aggregate                        6.99 ms
+  [15:45:59] [info] [RDB_OP] op=AGGREGATE rows_in=61996 rows_out=11620 time_ms=157.808
+  [15:45:59] [info] [TIMER]   projection                       0.12 ms
+  [15:45:59] [info] [RDB_OP] op=PROJECTION rows_in=61995 rows_out=11620 time_ms=157.934
+  [15:45:59] [info] [TIMER]   projection                       0.13 ms
+  [15:45:59] [info] [RDB_OP] op=PROJECTION rows_in=61995 rows_out=11620 time_ms=158.062
+  [15:45:59] [info] [TIMER]   projection                       0.12 ms
+  [15:45:59] [info] [RDB_OP] op=PROJECTION rows_in=61995 rows_out=11620 time_ms=158.182
+  [15:45:59] [info] [TIMER]   order_by                         1.22 ms
+  [15:45:59] [info] [RDB_OP] op=ORDER_BY rows_in=61995 rows_out=11620 time_ms=159.404
+  [15:45:59] [info] [TIMER]   projection                       0.12 ms
+  [15:45:59] [info] [RDB_OP] op=PROJECTION rows_in=61995 rows_out=11620 time_ms=159.531
+  [15:45:59] [info] [RDB_OP] op=PROJECTION rows_in=-1 rows_out=11620 time_ms=159.533
+  [15:45:59] [info] [TIMER] TOTAL gpu_execute                159.56 ms
+  [15:45:59] [info] [TIMER] TOTAL gpu_execute                160.03 ms
+  [15:45:59] [info] [TIMER]   bulk_download_to_host            0.12 ms
+  [15:45:59] [info] RasterDB: query executed on GPU (Vulkan/rasterdf).
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_execution('SELECT l_orderkey, sum(l_extendedprice * (1 - l_discount)) as revenue, o_orderdate, o_shippriority FROM customer, orders, lineitem WHERE c_mktsegment = ''BUILDING'' AND c_custkey = o_custkey AND l_orderkey = o_orderkey AND o_orderdate < DATE ''1995-03-15'' AND l_shipdate > DATE ''1995-03-15'' GROUP BY l_orderkey, o_orderdate, o_shippriority ORDER BY revenue DESC, o_orderdate');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.161s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘
+  ┌───────────────────────────┐
+  │           QUERY           │
+  └─────────────┬─────────────┘
+  ┌─────────────┴─────────────┐
+  │         TABLE_SCAN        │
+  │    ────────────────────   │
+  │         Function:         │
+  │       GPU_EXECUTION       │
+  │                           │
+  │        11,620 rows        │
+  │          (0.16s)          │
+  └───────────────────────────┘
+
+[stdout output]
+  ┌─────────┐
+  │ Success │
+  │ boolean │
+  ├─────────┤
+  │ 0 rows  │
+  └─────────┘
+  ┌────────────┬────────────────────────────────┬─────────────┬────────────────┐
+  │ l_orderkey │            revenue             │ o_orderdate │ o_shippriority │
+  │   int64    │         decimal(38,4)          │    date     │     int32      │
+  ├────────────┼────────────────────────────────┼─────────────┼────────────────┤
+  │    2456423 │ 7486402613815570124746013.4335 │ 1995-03-05  │              0 │
+  │    3459808 │ 7093472890179828434921473.4754 │ 1995-03-04  │              0 │
+  │     492164 │ 6979819904484812716469734.0990 │ 1995-02-19  │              0 │
+  │    1188320 │ 6883094663878082529243351.9119 │ 1995-03-09  │              0 │
+  │    2435712 │ 6776801495569991189719838.1027 │ 1995-02-26  │              0 │
+  │    4878020 │ 6736464867300981977544616.8376 │ 1995-03-12  │              0 │
+  │    5521732 │ 6567506048873186257822121.1105 │ 1995-03-13  │              0 │
+  │    2628192 │ 6544902742384859102468134.5199 │ 1995-02-22  │              0 │
+  │     993600 │ 6466489143742917025472506.6795 │ 1995-03-05  │              0 │
+  │    2300070 │ 6412695659944322472300488.2226 │ 1995-03-13  │              0 │
+  │    1166660 │ 6370791348042929905478466.7036 │ 1995-02-27  │              0 │
+  │    1083941 │ 6367718188733202966904329.5353 │ 1995-02-21  │              0 │
+  │     405063 │ 6330966476726711173171473.9468 │ 1995-03-03  │              0 │
+  │    4212103 │ 6300444530875839496486037.2796 │ 1995-02-14  │              0 │
+  │    4232067 │ 6245283621298525779558093.7648 │ 1995-02-21  │              0 │
+  │     817603 │ 6224654666139058942772823.4125 │ 1995-03-11  │              0 │
+  │     408035 │ 6216191768505340472713776.3849 │ 1995-03-08  │              0 │
+  │    4463334 │ 6204025674086103958570915.2435 │ 1995-03-14  │              0 │
+  │    1546404 │ 6169103043454217613316215.8185 │ 1995-03-11  │              0 │
+  │     345664 │ 6136400231285231624888749.8566 │ 1995-03-08  │              0 │
+  │        ·   │                            ·   │     ·       │              · │
+  │        ·   │                            ·   │     ·       │              · │
+  │        ·   │                            ·   │     ·       │              · │
+  │    2907297 │                         0.0000 │ 1994-12-18  │              0 │
+  │    3321796 │                         0.0000 │ 1995-01-21  │              0 │
+  │    3656999 │                         0.0000 │ 1994-12-15  │              0 │
+  │    2535046 │                         0.0000 │ 1995-01-27  │              0 │
+  │    4088736 │                         0.0000 │ 1994-12-13  │              0 │
+  │     198694 │                         0.0000 │ 1995-01-16  │              0 │
+  │     681414 │                         0.0000 │ 1995-02-25  │              0 │
+  │     949024 │                         0.0000 │ 1995-01-15  │              0 │
+  │    4513984 │                         0.0000 │ 1995-02-11  │              0 │
+  │    1012066 │                         0.0000 │ 1995-01-25  │              0 │
+  │    1023046 │                         0.0000 │ 1994-12-25  │              0 │
+  │    5996519 │                         0.0000 │ 1994-12-06  │              0 │
+  │    1033956 │                         0.0000 │ 1994-12-23  │              0 │
+  │    1796705 │                         0.0000 │ 1995-01-03  │              0 │
+  │    2674948 │                         0.0000 │ 1995-02-05  │              0 │
+  │    4096903 │                         0.0000 │ 1995-01-31  │              0 │
+  │    4276512 │                         0.0000 │ 1994-12-31  │              0 │
+  │    4810887 │                         0.0000 │ 1994-12-31  │              0 │
+  │     617767 │                         0.0000 │ 1995-02-17  │              0 │
+  │    3283971 │                         0.0000 │ 1994-12-27  │              0 │
+  ├────────────┴────────────────────────────────┴─────────────┴────────────────┤
+  │ 11620 rows (40 shown)                                            4 columns │
+  └────────────────────────────────────────────────────────────────────────────┘
+

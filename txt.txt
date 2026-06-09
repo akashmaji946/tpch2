@@ -1,0 +1,392 @@
+at sf=1
+
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                         6.82 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                        40.14 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 22.37 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                             4.17 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                 73.57 ms
+
+  [17:26:51] [info] [TIMER]   cpu_scan                        32.79 ms
+  [17:26:51] [info] [TIMER]   cpu_scan                         5.02 ms
+  [17:26:51] [DEBUG] [SG_JOIN] n_a=1500000 n_b=6001215 k=28 num_slots=268435456
+  [17:26:51] [DEBUG] [SG_JOIN] total_matches=6001215
+  [17:26:51] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=14.2 sub2(atomic_probe)=3.4 total=24.8 ms
+  [17:26:51] [DEBUG] [SG_JOIN] matches=6001215
+  [17:26:51] [info] [TIMER]   join                            28.93 ms
+  [17:26:51] [info] [TIMER]   projection                       0.23 ms
+  [17:26:51] [info] [TIMER] TOTAL gpu_execute                 67.01 ms
+  [17:26:51] [info] [TIMER] TOTAL gpu_execute                 67.06 ms
+  [17:26:51] [info] [TIMER]   bulk_download_to_host            3.28 ms
+
+
+-- at sf=2
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                        64.31 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                       414.13 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 22.21 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                             8.12 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                508.84 ms
+
+    [17:28:04] [info] [TIMER]   cpu_scan                        61.97 ms
+  [17:28:04] [info] [TIMER]   cpu_scan                        11.32 ms
+  [17:28:04] [DEBUG] [SG_JOIN] n_a=3000000 n_b=11997996 k=28 num_slots=268435456
+  [17:28:04] [DEBUG] [SG_JOIN] total_matches=11997996
+  [17:28:04] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=15.5 sub2(atomic_probe)=6.7 total=29.4 ms
+  [17:28:04] [DEBUG] [SG_JOIN] matches=11997996
+  [17:28:04] [info] [TIMER]   join                            37.51 ms
+  [17:28:04] [info] [TIMER]   projection                       0.38 ms
+  [17:28:04] [info] [TIMER] TOTAL gpu_execute                111.23 ms
+  [17:28:04] [info] [TIMER] TOTAL gpu_execute                111.28 ms
+  [17:28:04] [info] [TIMER]   bulk_download_to_host            5.69 ms
+  [17:28:04] [info] RasterDB: query executed on GPU (Vulkan/rasterdf)
+
+-- sf=5
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                       136.04 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                       994.09 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 26.99 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                            19.45 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute               1176.63 ms
+
+  [17:28:59] [info] [TIMER]   cpu_scan                       150.98 ms
+  [17:28:59] [info] [TIMER]   cpu_scan                        28.12 ms
+  [17:28:59] [DEBUG] [SG_JOIN] n_a=7500000 n_b=29999795 k=28 num_slots=268435456
+  [17:28:59] [DEBUG] [SG_JOIN] total_matches=29999795
+  [17:28:59] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=19.9 sub2(atomic_probe)=16.5 total=43.5 ms
+  [17:28:59] [DEBUG] [SG_JOIN] matches=29999795
+  [17:28:59] [info] [TIMER]   join                            63.75 ms
+  [17:28:59] [info] [TIMER]   projection                       1.84 ms
+  [17:28:59] [info] [TIMER] TOTAL gpu_execute                244.73 ms
+  [17:28:59] [info] [TIMER] TOTAL gpu_execute                244.78 ms
+  [17:28:59] [info] [TIMER]   bulk_download_to_host           10.61 ms
+
+--sf=10
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                        75.40 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                      1899.61 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 34.69 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                            38.66 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute               2048.43 ms
+
+  [17:30:21] [info] [TIMER]   cpu_scan                       299.81 ms
+  [17:30:21] [info] [TIMER]   cpu_scan                        64.04 ms
+  [17:30:21] [DEBUG] [SG_JOIN] n_a=15000000 n_b=59986052 k=28 num_slots=268435456
+  [17:30:21] [DEBUG] [SG_JOIN] total_matches=59986052
+  [17:30:21] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=27.7 sub2(atomic_probe)=32.9 total=69.6 ms
+  [17:30:21] [DEBUG] [SG_JOIN] matches=59986052
+  [17:30:21] [info] [TIMER]   join                           116.27 ms
+  [17:30:21] [info] [TIMER]   projection                       3.09 ms
+  [17:30:21] [info] [TIMER] TOTAL gpu_execute                484.23 ms
+  [17:30:21] [info] [TIMER] TOTAL gpu_execute                484.28 ms
+  [17:30:21] [info] [TIMER]   bulk_download_to_host           28.70 ms
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- sf=1
+
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                         6.72 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                        36.95 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 21.19 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                             3.99 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                 68.90 ms
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_processing('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.105s              ││
+  │└──────────────────────────────────────────────┘│
+
+
+  [18:22:28] [info] [TIMER]   cpu_scan                        35.46 ms
+  [18:22:28] [info] [TIMER]   cpu_scan                         5.13 ms
+  [18:22:28] [DEBUG] [SG_JOIN] n_a=1500000 n_b=6001215 k=28 num_slots=268435456
+  [18:22:28] [DEBUG] [SG_JOIN] total_matches=6001215
+  [18:22:28] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=14.2 sub2(atomic_probe)=3.4 total=25.1 ms
+  [18:22:28] [DEBUG] [SG_JOIN] matches=6001215
+  [18:22:28] [info] [TIMER]   join                            29.35 ms
+  [18:22:28] [info] [TIMER]   projection                       0.23 ms
+  [18:22:28] [info] [TIMER] TOTAL gpu_execute                 70.21 ms
+  [18:22:28] [info] [TIMER] TOTAL gpu_execute                 70.35 ms
+  [18:22:28] [info] [TIMER]   bulk_download_to_host            3.27 ms
+  [18:22:28] [info] RasterDB: query executed on GPU (Vulkan/rasterdf)
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_execution('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.1000s             ││
+  │└──────────────────────────────────────────────┘│
+
+
+
+  -- sf=2
+
+
+  [stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                        14.66 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.00 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                        71.62 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 22.36 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                             7.98 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                116.69 ms
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_processing('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.185s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘
+
+
+ [18:24:17] [info] [TIMER]   cpu_scan                        63.25 ms
+  [18:24:17] [info] [TIMER]   cpu_scan                        12.16 ms
+  [18:24:17] [DEBUG] [SG_JOIN] n_a=3000000 n_b=11997996 k=28 num_slots=268435456
+  [18:24:17] [DEBUG] [SG_JOIN] total_matches=11997996
+  [18:24:17] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=15.6 sub2(atomic_probe)=6.7 total=29.4 ms
+  [18:24:17] [DEBUG] [SG_JOIN] matches=11997996
+  [18:24:17] [info] [TIMER]   join                            37.66 ms
+  [18:24:17] [info] [TIMER]   projection                       0.38 ms
+  [18:24:17] [info] [TIMER] TOTAL gpu_execute                113.50 ms
+  [18:24:17] [info] [TIMER] TOTAL gpu_execute                113.55 ms
+  [18:24:17] [info] [TIMER]   bulk_download_to_host            5.69 ms
+  [18:24:17] [info] RasterDB: query executed on GPU (Vulkan/rasterdf)
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_execution('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.172s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘
+  ┌───────────────────────────┐
+
+
+  -- sf=5
+
+  [stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                        35.37 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                       174.93 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 26.43 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                            19.28 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                256.10 ms
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_processing('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.421s              ││
+  │└──────────────────────────────────────────────┘│
+
+    [18:26:26] [info] [TIMER]   cpu_scan                       153.19 ms
+  [18:26:26] [info] [TIMER]   cpu_scan                        27.98 ms
+  [18:26:26] [DEBUG] [SG_JOIN] n_a=7500000 n_b=29999795 k=28 num_slots=268435456
+  [18:26:26] [DEBUG] [SG_JOIN] total_matches=29999795
+  [18:26:26] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=20.0 sub2(atomic_probe)=16.5 total=43.9 ms
+  [18:26:26] [DEBUG] [SG_JOIN] matches=29999795
+  [18:26:26] [info] [TIMER]   join                            64.47 ms
+  [18:26:26] [info] [TIMER]   projection                       1.93 ms
+  [18:26:26] [info] [TIMER] TOTAL gpu_execute                247.62 ms
+  [18:26:26] [info] [TIMER] TOTAL gpu_execute                247.67 ms
+  [18:26:26] [info] [TIMER]   bulk_download_to_host           10.70 ms
+  [18:26:26] [info] RasterDB: query executed on GPU (Vulkan/rasterdf)
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_execution('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││               Total Time: 0.378s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘
+
+
+-- sf=10
+
+  [stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                        76.59 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                       351.35 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 35.46 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                            38.60 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                502.07 ms
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_processing('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.827s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘
+
+
+  [18:28:26] [info] [TIMER]   cpu_scan                       299.96 ms
+  [18:28:26] [info] [TIMER]   cpu_scan                        62.04 ms
+  [18:28:26] [DEBUG] [SG_JOIN] n_a=15000000 n_b=59986052 k=28 num_slots=268435456
+  [18:28:26] [DEBUG] [SG_JOIN] total_matches=59986052
+  [18:28:26] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=27.7 sub2(atomic_probe)=32.8 total=68.1 ms
+  [18:28:26] [DEBUG] [SG_JOIN] matches=59986052
+  [18:28:26] [info] [TIMER]   join                           109.38 ms
+  [18:28:26] [info] [TIMER]   projection                       2.64 ms
+  [18:28:26] [info] [TIMER] TOTAL gpu_execute                474.61 ms
+  [18:28:26] [info] [TIMER] TOTAL gpu_execute                474.66 ms
+  [18:28:26] [info] [TIMER]   bulk_download_to_host           28.74 ms
+  [18:28:26] [info] RasterDB: query executed on GPU (Vulkan/rasterdf)
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_execution('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││              Total Time: 0.743s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘
+
+-- sf=10
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                       171.53 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]   sink                             0.00 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   cpu_scan                       837.65 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: HASH_JOIN                 55.79 ms
+  [SIRIUS_TIMER]     op: PROJECTION                 0.00 ms
+  [SIRIUS_TIMER]   sink                            95.69 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute               1160.73 ms
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_processing('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││               Total Time: 1.95s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘
+
+    [18:30:23] [info] [TIMER]   cpu_scan                       719.02 ms
+  [18:30:23] [info] [TIMER]   cpu_scan                       139.30 ms
+  [18:30:23] [DEBUG] [SG_JOIN] n_a=37500000 n_b=149996355 k=28 num_slots=268435456
+  [18:30:24] [DEBUG] [SG_JOIN] total_matches=149996355
+  [18:30:24] [DEBUG] [SG_JOIN] TIMING: sub1(count+scan+build)=52.2 sub2(atomic_probe)=88.6 total=148.9 ms
+  [18:30:24] [DEBUG] [SG_JOIN] matches=149996355
+  [18:30:24] [info] [TIMER]   join                           344.72 ms
+  [18:30:24] [info] [TIMER]   projection                      28.50 ms
+  [18:30:24] [info] [TIMER] TOTAL gpu_execute               1232.07 ms
+  [18:30:24] [info] [TIMER] TOTAL gpu_execute               1232.12 ms
+  [18:30:24] [info] [TIMER]   bulk_download_to_host           80.34 ms
+  [18:30:24] [info] RasterDB: query executed on GPU (Vulkan/rasterdf)
+  ┌─────────────────────────────────────┐
+  │┌───────────────────────────────────┐│
+  ││    Query Profiling Information    ││
+  │└───────────────────────────────────┘│
+  └─────────────────────────────────────┘
+  SELECT * FROM gpu_execution('SELECT l.l_orderkey, o.o_custkey, l.l_extendedprice FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey');
+  ┌────────────────────────────────────────────────┐
+  │┌──────────────────────────────────────────────┐│
+  ││               Total Time: 1.89s              ││
+  │└──────────────────────────────────────────────┘│
+  └────────────────────────────────────────────────┘

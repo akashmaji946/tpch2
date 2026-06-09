@@ -1,0 +1,143 @@
+(rasterdf) akashmaji@hb-Z690-AORUS-PRO-DDR4:~/Device/IMPORTANT/tpch$ python3 tpch_benchmark.py --suite adapted
+========================================================================================================================
+  TPC-H Benchmark: DuckDB CPU  vs  Sirius (CUDA)  vs  RasterDB (Vulkan)
+  Timing = gpu_execute only (parsed from stderr TIMER lines)
+========================================================================================================================
+  Database    : /home/akashmaji/Device/IMPORTANT/tpch/tpch_sf1.db
+  Scale Factor: SF=1
+  Runs        : 1 warmup + 3 timed → median
+  Suite       : adapted
+
+  Tables:
+    customer            :      150,000 rows
+    customer_int        :      150,000 rows
+    lineitem            :    6,001,215 rows
+    lineitem_int        :    6,001,215 rows
+    nation              :           25 rows
+    nation_int          :           25 rows
+    orders              :    1,500,000 rows
+    orders_int          :    1,500,000 rows
+    part                :      200,000 rows
+    part_int            :      200,000 rows
+    partsupp            :      800,000 rows
+    partsupp_int        :      800,000 rows
+    region              :            5 rows
+    region_int          :            5 rows
+    supplier            :       10,000 rows
+    supplier_int        :       10,000 rows
+
+  [adapted/Q6_revenue_int                       ] CPU=    9.2ms  Sirius=    88.1ms[✓](GPU)  RasterDB=    72.2ms[✓](CPU)
+  [adapted/Q1_pricing_int                       ] CPU=   10.1ms  Sirius=   100.2ms[✓](GPU)  RasterDB=    75.0ms[✓](CPU)
+  [adapted/lineitem_sum_price                   ] CPU=    2.9ms  Sirius=    50.0ms[✓](GPU)  RasterDB=    21.2ms[✓](CPU)
+  [adapted/lineitem_avg_qty                     ] CPU=    1.9ms  Sirius=    48.8ms[✓](GPU)  RasterDB=    13.7ms[✓](CPU)
+  [adapted/lineitem_min_max_discount            ] CPU=    0.4ms  Sirius=    39.3ms[✓](GPU)  RasterDB=    19.3ms[✓](GPU)
+  [adapted/lineitem_count                       ] CPU=    0.3ms  Sirius=     0.1ms[✓](GPU)  RasterDB=     0.1ms[✓](CPU)
+  [adapted/lineitem_filter_qty                  ] CPU=  289.2ms  Sirius=    44.0ms[✓](GPU)  RasterDB=    52.2ms[✓](GPU)
+  [adapted/lineitem_filter_discount             ] CPU=  104.5ms  Sirius=    28.7ms[✓](GPU)  RasterDB=    36.2ms[✓](GPU)
+  [adapted/lineitem_filter_shipmode             ] CPU=  158.3ms  Sirius=    45.5ms[✓](GPU)  RasterDB=    53.8ms[✓](GPU)
+  [adapted/lineitem_filter_sum                  ] CPU=    4.2ms  Sirius=    60.0ms[✓](GPU)  RasterDB=    42.5ms[✓](CPU)
+  [adapted/lineitem_filter_count                ] CPU=    1.6ms  Sirius=    14.6ms[✓](GPU)  RasterDB=    21.1ms[✓](GPU)
+  [adapted/lineitem_groupby_returnflag          ] CPU=    4.3ms  Sirius=    62.9ms[✓](GPU)  RasterDB=    26.5ms[✓](CPU)
+  [adapted/lineitem_groupby_shipmode            ] CPU=    6.0ms  Sirius=    87.1ms[✓](GPU)  RasterDB=    44.0ms[✓](CPU)
+  [adapted/lineitem_groupby_linestatus          ] CPU=    6.6ms  Sirius=    62.7ms[✓](GPU)  RasterDB=    46.5ms[✗](GPU)
+  [adapted/orders_sum_totalprice                ] CPU=    1.2ms  Sirius=    31.6ms[✓](GPU)  RasterDB=     5.6ms[✓](CPU)
+  [adapted/orders_filter_status                 ] CPU=  121.5ms  Sirius=    10.4ms[✓](GPU)  RasterDB=    18.4ms[✓](GPU)
+  [adapted/orders_groupby_priority              ] CPU=    2.0ms  Sirius=    45.4ms[✓](GPU)  RasterDB=    15.3ms[✓](CPU)
+  [adapted/orders_groupby_status                ] CPU=    2.4ms  Sirius=    47.0ms[✓](GPU)  RasterDB=    16.3ms[✓](CPU)
+  [adapted/lineitem_sort_price_limit            ] CPU=    3.6ms  Sirius=    72.0ms[✗](GPU)  RasterDB=    37.0ms[✗](GPU)
+  [adapted/orders_sort_price_limit              ] CPU=    2.8ms  Sirius=    36.4ms[✓](GPU)  RasterDB=     9.7ms[✗](GPU)
+  [adapted/lineitem_scan_limit                  ] CPU=    0.8ms  Sirius=       N/A[SKIP](?)  RasterDB=     2.2ms[✓](GPU)
+  [adapted/orders_scan_limit                    ] CPU=    0.5ms  Sirius=       N/A[SKIP](?)  RasterDB=     1.4ms[✓](GPU)
+  [adapted/join_orders_customer_count           ] CPU=    2.7ms  Sirius=    26.4ms[✓](GPU)  RasterDB=    13.5ms[✓](GPU)
+  [adapted/join_orders_customer_sum             ] CPU=    3.8ms  Sirius=    43.4ms[✓](GPU)  RasterDB=    18.9ms[✓](CPU)
+  [adapted/join_lineitem_orders_count           ] CPU=   21.0ms  Sirius=    40.1ms[✓](GPU)  RasterDB=    26.3ms[✓](GPU)
+  [adapted/join_lineitem_orders_sum             ] CPU=   22.1ms  Sirius=    71.2ms[✓](GPU)  RasterDB=    46.8ms[✓](CPU)
+  [adapted/Q3_shipping_int                      ] 
+CPU=   16.7ms  Sirius=   114.9ms[✓](GPU)  RasterDB=    67.7ms[✓](CPU)
+  [adapted/Q5_supplier_volume_int               ] CPU=   15.3ms  Sirius=   124.5ms[✓](GPU)  RasterDB=     0.1ms[✓](CPU)
+  [adapted/lineitem_project_revenue             ] CPU=    1.2ms  Sirius=       N/A[SKIP](?)  RasterDB=     1.0ms[✓](CPU)
+  [adapted/lineitem_project_charge              ] CPU=    1.4ms  Sirius=       N/A[SKIP](?)  RasterDB=     1.1ms[✓](CPU)
+  [adapted/lineitem_filter_groupby              ] CPU=    5.3ms  Sirius=    71.0ms[✓](GPU)  RasterDB=    49.1ms[✓](CPU)
+  [adapted/partsupp_sum_cost                    ] CPU=    1.6ms  Sirius=    32.9ms[✓](GPU)  RasterDB=     4.5ms[✓](CPU)
+  [adapted/partsupp_groupby_suppkey_count       ] CPU=    5.9ms  Sirius=    39.3ms[✗](GPU)  RasterDB=    10.2ms[✗](GPU)
+
+================================================================================================================================================================
+  Query                                          CPU(ms) Sirius(ms) S.ok    RDB(ms) R.ok  S.spdup  R.spdup  Features
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  adapted/Q6_revenue_int                             9.2       88.1    ✓       72.2    ✓     0.10x     0.13x  filter + SUM
+  adapted/Q1_pricing_int                            10.1      100.2    ✓       75.0    ✓     0.10x     0.13x  GROUP BY + aggregate + filter
+  adapted/lineitem_sum_price                         2.9       50.0    ✓       21.2    ✓     0.06x     0.14x  ungrouped SUM
+  adapted/lineitem_avg_qty                           1.9       48.8    ✓       13.7    ✓     0.04x     0.14x  ungrouped AVG
+  adapted/lineitem_min_max_discount                  0.4       39.3    ✓       19.3    ✓     0.01x     0.02x  ungrouped MIN/MAX
+  adapted/lineitem_count                             0.3        0.1    ✓        0.1    ✓     5.41x     3.61x  COUNT(*)
+  adapted/lineitem_filter_qty                      289.2       44.0    ✓       52.2    ✓     6.57x     5.54x  filter >
+  adapted/lineitem_filter_discount                 104.5       28.7    ✓       36.2    ✓     3.64x     2.89x  filter AND
+  adapted/lineitem_filter_shipmode                 158.3       45.5    ✓       53.8    ✓     3.48x     2.94x  filter = (TRUCK)
+  adapted/lineitem_filter_sum                        4.2       60.0    ✓       42.5    ✓     0.07x     0.10x  filter + SUM
+  adapted/lineitem_filter_count                      1.6       14.6    ✓       21.1    ✓     0.11x     0.08x  filter + COUNT (returnflag=R)
+  adapted/lineitem_groupby_returnflag                4.3       62.9    ✓       26.5    ✓     0.07x     0.16x  GROUP BY + SUM + COUNT
+  adapted/lineitem_groupby_shipmode                  6.0       87.1    ✓       44.0    ✓     0.07x     0.14x  GROUP BY + SUM + AVG
+  adapted/lineitem_groupby_linestatus                6.6       62.7    ✓       46.5    ✗     0.10x     0.14x  GROUP BY + MIN + MAX + COUNT
+  adapted/orders_sum_totalprice                      1.2       31.6    ✓        5.6    ✓     0.04x     0.22x  ungrouped SUM
+  adapted/orders_filter_status                     121.5       10.4    ✓       18.4    ✓    11.68x     6.61x  filter = (status F)
+  adapted/orders_groupby_priority                    2.0       45.4    ✓       15.3    ✓     0.04x     0.13x  GROUP BY + COUNT + SUM
+  adapted/orders_groupby_status                      2.4       47.0    ✓       16.3    ✓     0.05x     0.15x  GROUP BY + COUNT + AVG
+  adapted/lineitem_sort_price_limit                  3.6       72.0    ✗       37.0    ✗     0.05x     0.10x  ORDER BY DESC + LIMIT
+  adapted/orders_sort_price_limit                    2.8       36.4    ✓        9.7    ✗     0.08x     0.29x  ORDER BY DESC + LIMIT
+  adapted/lineitem_scan_limit                        0.8        N/A    ✗        2.2    ✓      N/A     0.38x  scan + LIMIT
+  adapted/orders_scan_limit                          0.5        N/A    ✗        1.4    ✓      N/A     0.38x  scan + LIMIT
+  adapted/join_orders_customer_count                 2.7       26.4    ✓       13.5    ✓     0.10x     0.20x  2-way INNER JOIN + COUNT
+  adapted/join_orders_customer_sum                   3.8       43.4    ✓       18.9    ✓     0.09x     0.20x  2-way INNER JOIN + SUM
+  adapted/join_lineitem_orders_count                21.0       40.1    ✓       26.3    ✓     0.52x     0.80x  2-way INNER JOIN + COUNT (large)
+  adapted/join_lineitem_orders_sum                  22.1       71.2    ✓       46.8    ✓     0.31x     0.47x  2-way INNER JOIN + SUM (large)
+  adapted/Q3_shipping_int                           16.7      114.9    ✓       67.7    ✓     0.15x     0.25x  3-way JOIN + filter + GROUP BY + ORDER B
+  adapted/Q5_supplier_volume_int                    15.3      124.5    ✓        0.1    ✓     0.12x   153.47x  6-way JOIN + filter + GROUP BY + ORDER B
+  adapted/lineitem_project_revenue                   1.2        N/A    ✗        1.0    ✓      N/A     1.20x  projection + LIMIT
+  adapted/lineitem_project_charge                    1.4        N/A    ✗        1.1    ✓      N/A     1.21x  projection (multi-op) + LIMIT
+  adapted/lineitem_filter_groupby                    5.3       71.0    ✓       49.1    ✓     0.07x     0.11x  filter + GROUP BY + SUM + COUNT
+  adapted/partsupp_sum_cost                          1.6       32.9    ✓        4.5    ✓     0.05x     0.36x  projection + ungrouped SUM
+  adapted/partsupp_groupby_suppkey_count             5.9       39.3    ✗       10.2    ✗     0.15x     0.58x  GROUP BY + COUNT + LIMIT (wait: GROUP BY
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Sirius   geomean speedup vs CPU: 0.1664x  (29 queries)
+  RasterDB geomean speedup vs CPU: 0.3982x  (33 queries)
+  Head-to-head: Sirius wins 6, RasterDB wins 23, tied 0
+
+====================================================================================================
+  Support Matrix (which queries ran successfully on each backend)
+----------------------------------------------------------------------------------------------------
+  Query                                           CPU   Sirius   RasterDB
+----------------------------------------------------------------------------------------------------
+  adapted/Q6_revenue_int                            ✓        ✓          ✓
+  adapted/Q1_pricing_int                            ✓        ✓          ✓
+  adapted/lineitem_sum_price                        ✓        ✓          ✓
+  adapted/lineitem_avg_qty                          ✓        ✓          ✓
+  adapted/lineitem_min_max_discount                 ✓        ✓          ✓
+  adapted/lineitem_count                            ✓        ✓          ✓
+  adapted/lineitem_filter_qty                       ✓        ✓          ✓
+  adapted/lineitem_filter_discount                  ✓        ✓          ✓
+  adapted/lineitem_filter_shipmode                  ✓        ✓          ✓
+  adapted/lineitem_filter_sum                       ✓        ✓          ✓
+  adapted/lineitem_filter_count                     ✓        ✓          ✓
+  adapted/lineitem_groupby_returnflag               ✓        ✓          ✓
+  adapted/lineitem_groupby_shipmode                 ✓        ✓          ✓
+  adapted/lineitem_groupby_linestatus               ✓        ✓          ✓
+  adapted/orders_sum_totalprice                     ✓        ✓          ✓
+  adapted/orders_filter_status                      ✓        ✓          ✓
+  adapted/orders_groupby_priority                   ✓        ✓          ✓
+  adapted/orders_groupby_status                     ✓        ✓          ✓
+  adapted/lineitem_sort_price_limit                 ✓        ✓          ✓
+  adapted/orders_sort_price_limit                   ✓        ✓          ✓
+  adapted/lineitem_scan_limit                       ✓        ✗          ✓
+  adapted/orders_scan_limit                         ✓        ✗          ✓
+  adapted/join_orders_customer_count                ✓        ✓          ✓
+  adapted/join_orders_customer_sum                  ✓        ✓          ✓
+  adapted/join_lineitem_orders_count                ✓        ✓          ✓
+  adapted/join_lineitem_orders_sum                  ✓        ✓          ✓
+  adapted/Q3_shipping_int                           ✓        ✓          ✓
+  adapted/Q5_supplier_volume_int                    ✓        ✓          ✓
+  adapted/lineitem_project_revenue                  ✓        ✗          ✓
+  adapted/lineitem_project_charge                   ✓        ✗          ✓
+  adapted/lineitem_filter_groupby                   ✓        ✓          ✓
+  adapted/partsupp_sum_cost                         ✓        ✓          ✓
+  adapted/partsupp_groupby_suppkey_count            ✓        ✓          ✓
+====================================================================================================

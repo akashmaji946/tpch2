@@ -1,0 +1,121 @@
+-- sf = 1
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                        35.20 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: PROJECTION                20.90 ms
+  [SIRIUS_TIMER]   sink                            19.11 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.00 ms
+  [SIRIUS_TIMER]   sink                             0.08 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                 75.35 ms
+
+
+
+    [18:09:03] [info] [TIMER]   cpu_scan                        27.35 ms
+ 
+  [18:09:03] [info] [TIMER]   aggregate                       44.34 ms
+  [18:09:03] [info] [TIMER]   projection                       0.09 ms
+  [18:09:03] [info] [TIMER] TOTAL gpu_execute                 71.81 ms
+  [18:09:03] [info] [TIMER] TOTAL gpu_execute                 71.85 ms
+  [18:09:03] [info] [TIMER]   bulk_download_to_host            0.05 ms
+
+-- sf = 2
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                        76.21 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: PROJECTION                20.08 ms
+  [SIRIUS_TIMER]   sink                            16.55 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.00 ms
+  [SIRIUS_TIMER]   sink                             0.08 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                112.98 ms
+
+   [18:11:09] [info] [TIMER]   cpu_scan                        57.83 ms
+  
+  [18:11:09] [info] [TIMER]   aggregate                       42.40 ms
+  [18:11:09] [info] [TIMER]   projection                       0.09 ms
+  [18:11:09] [info] [TIMER] TOTAL gpu_execute                100.37 ms
+  [18:11:09] [info] [TIMER] TOTAL gpu_execute                100.50 ms
+  [18:11:09] [info] [TIMER]   bulk_download_to_host            0.05 ms
+
+-- sf = 5
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                       156.37 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: PROJECTION                20.10 ms
+  [SIRIUS_TIMER]   sink                            19.67 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.00 ms
+  [SIRIUS_TIMER]   sink                             0.08 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                196.27 ms
+
+[stderr output]
+  [18:12:48] [info] Initializing RasterDB GPU context (Vulkan/rasterdf)...
+  [18:12:48] [DEBUG] Found 3 Vulkan device(s):
+  [18:12:48] [DEBUG]   [0] NVIDIA GeForce RTX 4090 (NVIDIA, Discrete, 24.23 GB VRAM)
+  [18:12:48] [DEBUG]   [1] Intel(R) UHD Graphics 770 (ADL-S GT1) (Intel, Integrated, 94.18 GB VRAM)
+  [18:12:48] [DEBUG]   [2] llvmpipe (LLVM 15.0.7, 256 bits) (Other, Integrated, 125.57 GB VRAM)
+  [18:12:48] [DEBUG] Selected device: NVIDIA GeForce RTX 4090 (NVIDIA, 24.23 GB VRAM)
+  [18:12:48] [DEBUG] Resizable BAR: ENABLED (1/2 device-local heaps are host-visible)
+  [18:12:48] [info] GPU device: NVIDIA GeForce RTX 4090
+  [18:12:48] [info] GPU memory: 24810 MB
+  [18:12:48] [info] Vulkan compute pipelines loaded
+  [18:12:48] [info] Simple Garuda join pipelines loaded
+  [18:12:48] [info] GPU memory manager initialized (19848 MB limit)
+  [18:12:48] [info] Initializing GPUBufferManager: cache=4096 MB, processing=4096 MB, staging=4096 MB
+  [18:12:49] [info]   GPU cache: 4096MB device-local buffer allocated (addr=0x50ee00000)
+  [18:12:50] [info]   CPU staging: 4096MB host-visible buffer allocated (mapped=0x77c83c000000)
+  [18:12:50] [info]   CPU download: 4096MB host-cached buffer allocated (mapped=0x77c73c000000)
+  [18:12:51] [info]   GPU processing: 4096MB device-local buffer allocated (addr=0x80ee00000)
+  [18:12:51] [info] GPUBufferManager initialized successfully
+  [18:12:51] [info] RasterDB extension loaded with Vulkan GPU support
+  [18:12:51] [info] [TIMER]   cpu_scan                       135.20 ms
+  
+  [18:12:51] [info] [TIMER]   aggregate                       25.14 ms
+  [18:12:51] [info] [TIMER]   projection                       0.27 ms
+  [18:12:51] [info] [TIMER] TOTAL gpu_execute                160.64 ms
+  [18:12:51] [info] [TIMER] TOTAL gpu_execute                160.69 ms
+  [18:12:51] [info] [TIMER]   bulk_download_to_host            0.16 ms
+
+-- sf=10
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                       331.47 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: PROJECTION                21.38 ms
+  [SIRIUS_TIMER]   sink                            23.18 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.00 ms
+  [SIRIUS_TIMER]   sink                             0.08 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                376.16 ms
+
+
+  [18:14:35] [info] [TIMER]   cpu_scan                       303.35 ms
+  [18:14:35] [info] [TIMER]   aggregate                       58.14 ms
+  [18:14:35] [info] [TIMER]   projection                       0.09 ms
+  [18:14:35] [info] [TIMER] TOTAL gpu_execute                361.62 ms
+  [18:14:35] [info] [TIMER] TOTAL gpu_execute                361.66 ms
+  [18:14:35] [info] [TIMER]   bulk_download_to_host            0.05 ms
+
+-- sf=25
+[stderr output]
+  [SIR_DEBUG] --- pipeline 0 ---
+  [SIRIUS_TIMER]   cpu_scan                       747.94 ms
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.01 ms
+  [SIRIUS_TIMER]     op: PROJECTION                19.93 ms
+  [SIRIUS_TIMER]   sink                            27.35 ms
+  [SIR_DEBUG] --- pipeline 1 ---
+  [SIRIUS_TIMER]   source->GetData (gpu_upload)     0.00 ms
+  [SIRIUS_TIMER]   sink                             0.08 ms
+  [SIRIUS_TIMER] TOTAL gpu_execute                795.35 ms
+
+
+  [18:16:00] [info] [TIMER]   cpu_scan                       642.12 ms
+  [18:16:00] [info] [TIMER]   aggregate                       66.88 ms
+  [18:16:00] [info] [TIMER]   projection                       0.26 ms
+  [18:16:00] [info] [TIMER] TOTAL gpu_execute                709.28 ms
+  [18:16:00] [info] [TIMER] TOTAL gpu_execute                709.33 ms
+  [18:16:00] [info] [TIMER]   bulk_download_to_host            0.05 ms
