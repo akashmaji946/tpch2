@@ -1,0 +1,119 @@
+USE_RDB_PARALLEL_SCAN_THREADS=1
+
+  Q1    Q1_pricing_summary_int               104.66      GPU OK (1800.35ms)      GPU OK (1550.64ms)       ✓      ✗
+  Q3    Q3_shipping_priority_int             332.52      GPU OK (1690.75ms)      GPU OK (1727.95ms)       ✓      ✓
+  Q4    Q4_order_priority_int                483.43      GPU OK (1040.11ms)      GPU OK (1207.77ms)       ✓      ✗
+  Q5    Q5_local_supplier_volume_int         219.26      GPU OK (1655.07ms)      GPU OK (1797.58ms)       ✓      ✓
+  Q6    Q6_forecasting_revenue_int            67.04      GPU OK (1464.10ms)      GPU OK (1493.16ms)       ✓      ✓
+  Q7    Q7_volume_shipping_int               306.25      GPU OK (1935.56ms)      GPU OK (1972.81ms)       ✓      ✓
+  Q10   Q10_returned_item_int                513.51      GPU OK (1454.76ms)      GPU OK (1620.58ms)       ✓      ✓
+  Q11   Q11_important_stock_int              185.28      GPU OK ( 207.60ms)      GPU OK ( 232.68ms)       ✓      ✓
+  Q12   Q12_shipping_modes_int               106.77      GPU OK (1312.76ms)      GPU OK (1446.35ms)       ✓      ✓
+  Q14   Q14_promotion_effect_int             116.06      GPU OK (1486.60ms)      GPU OK (1634.62ms)       ✓      ✓
+  Q18   Q18_large_volume_customer_int        701.84      GPU OK ( 988.54ms)      GPU OK (1170.64ms)       ✓      ✓
+==================================================================================================================
+
+
+USE_RDB_PARALLEL_SCAN_THREADS=2
+
+  Q1    Q1_pricing_summary_int               104.29      GPU OK ( 993.10ms)      GPU OK (1547.18ms)       ✓      ✗
+  Q3    Q3_shipping_priority_int             340.68      GPU OK ( 925.82ms)      GPU OK (1758.82ms)       ✓      ✓
+  Q4    Q4_order_priority_int                486.74      GPU OK ( 646.28ms)      GPU OK (1212.05ms)       ✓      ✗
+  Q5    Q5_local_supplier_volume_int         218.49      GPU OK ( 918.33ms)      GPU OK (1786.68ms)       ✓      ✓
+  Q6    Q6_forecasting_revenue_int            67.69      GPU OK ( 751.92ms)      GPU OK (1498.35ms)       ✓      ✓
+  Q7    Q7_volume_shipping_int               303.89      GPU OK (1044.83ms)      GPU OK (1952.68ms)       ✓      ✓
+  Q10   Q10_returned_item_int                501.56      GPU OK ( 783.64ms)      GPU OK (1621.86ms)       ✓      ✓
+  Q11   Q11_important_stock_int              186.64      GPU OK ( 130.81ms)      GPU OK ( 227.26ms)       ✓      ✓
+  Q12   Q12_shipping_modes_int               106.26      GPU OK ( 759.52ms)      GPU OK (1439.80ms)       ✓      ✓
+  Q14   Q14_promotion_effect_int             119.74      GPU OK ( 781.01ms)      GPU OK (1633.30ms)       ✓      ✓
+  Q18   Q18_large_volume_customer_int        712.93      GPU OK ( 563.04ms)      GPU OK (1163.82ms)       ✓      ✓
+==================================================================================================================
+
+
+USE_RDB_PARALLEL_SCAN_THREADS=4
+
+  Q1    Q1_pricing_summary_int                  ---      GPU OK ( 588.73ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 547.46ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK ( 445.78ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 554.75ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 409.02ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 605.69ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 446.32ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK (  94.76ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 405.12ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 435.49ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK ( 355.07ms)                     ---       -    ---
+
+
+
+  USE_RDB_PARALLEL_SCAN_THREADS=8
+
+    Q1    Q1_pricing_summary_int                  ---      GPU OK ( 411.26ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 353.24ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK ( 345.59ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 395.60ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 245.11ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 409.41ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 282.08ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK (  79.25ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 270.07ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 276.33ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK ( 285.54ms)                     ---       -    ---
+
+
+
+  USE_RDB_PARALLEL_SCAN_THREADS=12
+
+  Q1    Q1_pricing_summary_int                  ---      GPU OK ( 377.99ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 320.13ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK ( 349.73ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 382.91ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 201.63ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 368.27ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 245.52ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK (  76.32ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 243.99ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 241.17ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK ( 266.53ms)                     ---       -    ---
+
+
+  USE_RDB_PARALLEL_SCAN_THREADS=16
+
+   Q1    Q1_pricing_summary_int                  ---      GPU OK ( 364.88ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 303.13ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK ( 347.93ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 363.24ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 181.27ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 350.71ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 230.14ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK (  73.79ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 234.82ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 226.10ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK ( 244.42ms)                     ---       -    --- 
+
+  USE_RDB_PARALLEL_SCAN_THREADS=20
+    Q1    Q1_pricing_summary_int                  ---      GPU OK ( 359.72ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 295.76ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK ( 344.98ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 357.93ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 172.72ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 342.51ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 236.13ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK (  74.67ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 227.59ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 220.47ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK ( 242.58ms)                     ---       -    ---
+ 
+
+  USE_RDB_PARALLEL_SCAN_THREADS=24
+    Q1    Q1_pricing_summary_int                  ---      GPU OK ( 378.12ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 317.53ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK ( 357.62ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 373.37ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 196.93ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 364.05ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 241.16ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK (  74.84ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 273.02ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 236.23ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK ( 251.58ms)                     ---       -    ---

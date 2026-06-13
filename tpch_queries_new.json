@@ -1,0 +1,250 @@
+{
+  "original": {
+    "Q1": {
+      "name": "Q1_pricing_summary",
+      "query": "SELECT l_returnflag, l_linestatus, sum(l_quantity) as sum_qty, sum(l_extendedprice) as sum_base_price, sum(l_extendedprice * (1 - l_discount)) as sum_disc_price, sum(l_extendedprice * (1 - l_discount) * (1 + l_tax)) as sum_charge, avg(l_quantity) as avg_qty, avg(l_extendedprice) as avg_price, avg(l_discount) as avg_disc, count(*) as count_order FROM lineitem WHERE l_shipdate <= DATE '1998-12-01' - INTERVAL '90' DAY GROUP BY l_returnflag, l_linestatus ORDER BY l_returnflag, l_linestatus",
+      "is_large": false,
+      "features": "GROUP BY, aggregate, DATE filter, VARCHAR group key"
+    },
+    "Q2": {
+      "name": "Q2_minimum_cost_supplier",
+      "query": "SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = 15 AND p_type LIKE '%BRASS' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = 'EUROPE' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = 'EUROPE') ORDER BY s_acctbal DESC, n_name, s_name, p_partkey LIMIT 100",
+      "is_large": false,
+      "features": "correlated subquery, 5-way JOIN, ORDER BY, LIMIT, LIKE"
+    },
+    "Q3": {
+      "name": "Q3_shipping_priority",
+      "query": "SELECT l_orderkey, sum(l_extendedprice * (1 - l_discount)) as revenue, o_orderdate, o_shippriority FROM customer, orders, lineitem WHERE c_mktsegment = 'BUILDING' AND c_custkey = o_custkey AND l_orderkey = o_orderkey AND o_orderdate < DATE '1995-03-15' AND l_shipdate > DATE '1995-03-15' GROUP BY l_orderkey, o_orderdate, o_shippriority ORDER BY revenue DESC, o_orderdate",
+      "is_large": false,
+      "features": "3-way JOIN, DATE filter, VARCHAR filter, GROUP BY, ORDER BY, LIMIT"
+    },
+    "Q4": {
+      "name": "Q4_order_priority",
+      "query": "SELECT o_orderpriority, count(*) as order_count FROM orders WHERE o_orderdate >= DATE '1993-07-01' AND o_orderdate < DATE '1993-07-01' + INTERVAL '3' MONTH AND EXISTS (SELECT * FROM lineitem WHERE l_orderkey = o_orderkey AND l_commitdate < l_receiptdate) GROUP BY o_orderpriority ORDER BY o_orderpriority",
+      "is_large": false,
+      "features": "EXISTS subquery, DATE filter, GROUP BY"
+    },
+    "Q5": {
+      "name": "Q5_local_supplier_volume",
+      "query": "SELECT n_name, sum(l_extendedprice * (1 - l_discount)) as revenue FROM customer, orders, lineitem, supplier, nation, region WHERE c_custkey = o_custkey AND l_orderkey = o_orderkey AND l_suppkey = s_suppkey AND c_nationkey = s_nationkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = 'ASIA' AND o_orderdate >= DATE '1994-01-01' AND o_orderdate < DATE '1994-01-01' + INTERVAL '1' YEAR GROUP BY n_name ORDER BY revenue DESC",
+      "is_large": false,
+      "features": "6-way JOIN, DATE+VARCHAR filter, GROUP BY"
+    },
+    "Q6": {
+      "name": "Q6_forecasting_revenue",
+      "query": "SELECT sum(l_extendedprice * l_discount) as revenue FROM lineitem WHERE l_shipdate >= DATE '1994-01-01' AND l_shipdate < DATE '1994-01-01' + INTERVAL '1' YEAR AND l_discount BETWEEN 0.06 - 0.01 AND 0.06 + 0.01 AND l_quantity < 24",
+      "is_large": false,
+      "features": "filter + SUM (simplest TPC-H)"
+    },
+    "Q7": {
+      "name": "Q7_volume_shipping",
+      "query": "SELECT supp_nation, cust_nation, l_year, sum(volume) as revenue FROM (SELECT n1.n_name as supp_nation, n2.n_name as cust_nation, EXTRACT(YEAR FROM l_shipdate) as l_year, l_extendedprice * (1 - l_discount) as volume FROM supplier, lineitem, orders, customer, nation n1, nation n2 WHERE s_suppkey = l_suppkey AND o_orderkey = l_orderkey AND c_custkey = o_custkey AND s_nationkey = n1.n_nationkey AND c_nationkey = n2.n_nationkey AND ((n1.n_name = 'FRANCE' AND n2.n_name = 'GERMANY') OR (n1.n_name = 'GERMANY' AND n2.n_name = 'FRANCE')) AND l_shipdate BETWEEN DATE '1995-01-01' AND DATE '1996-12-31') as shipping GROUP BY supp_nation, cust_nation, l_year ORDER BY supp_nation, cust_nation, l_year",
+      "is_large": false,
+      "features": "CASE WHEN, multi-join, VARCHAR+DATE filter, GROUP BY, subquery"
+    },
+    "Q8": {
+      "name": "Q8_national_market_share",
+      "query": "SELECT o_year, sum(CASE WHEN nation = 'BRAZIL' THEN volume ELSE 0 END) / sum(volume) as mkt_share FROM (SELECT EXTRACT(YEAR FROM o_orderdate) as o_year, l_extendedprice * (1 - l_discount) as volume, n2.n_name as nation FROM part, supplier, lineitem, orders, customer, nation n1, nation n2, region WHERE p_partkey = l_partkey AND s_suppkey = l_suppkey AND l_orderkey = o_orderkey AND o_custkey = c_custkey AND c_nationkey = n1.n_nationkey AND n1.n_regionkey = r_regionkey AND r_name = 'AMERICA' AND s_nationkey = n2.n_nationkey AND o_orderdate BETWEEN DATE '1995-01-01' AND DATE '1996-12-31' AND p_type = 'ECONOMY ANODIZED STEEL') as all_nations GROUP BY o_year ORDER BY o_year",
+      "is_large": false,
+      "features": "CASE WHEN, 8-way JOIN, subquery, GROUP BY"
+    },
+    "Q9": {
+      "name": "Q9_product_type_profit",
+      "query": "SELECT nation, o_year, sum(amount) as sum_profit FROM (SELECT n_name as nation, EXTRACT(YEAR FROM o_orderdate) as o_year, l_extendedprice * (1 - l_discount) - ps_supplycost * l_quantity as amount FROM part, supplier, lineitem, partsupp, orders, nation WHERE s_suppkey = l_suppkey AND ps_suppkey = l_suppkey AND ps_partkey = l_partkey AND p_partkey = l_partkey AND o_orderkey = l_orderkey AND s_nationkey = n_nationkey AND p_name LIKE '%green%') as profit GROUP BY nation, o_year ORDER BY nation, o_year DESC",
+      "is_large": false,
+      "features": "LIKE, 6-way JOIN, subquery, GROUP BY"
+    },
+    "Q10": {
+      "name": "Q10_returned_item",
+      "query": "SELECT c_custkey, c_name, sum(l_extendedprice * (1 - l_discount)) as revenue, c_acctbal, n_name, c_address, c_phone, c_comment FROM customer, orders, lineitem, nation WHERE c_custkey = o_custkey AND l_orderkey = o_orderkey AND o_orderdate >= DATE '1993-10-01' AND o_orderdate < DATE '1993-10-01' + INTERVAL '3' MONTH AND l_returnflag = 'R' AND c_nationkey = n_nationkey GROUP BY c_custkey, c_name, c_acctbal, c_phone, n_name, c_address, c_comment ORDER BY revenue DESC LIMIT 20",
+      "is_large": false,
+      "features": "4-way JOIN, DATE+VARCHAR filter, GROUP BY, ORDER BY, LIMIT"
+    },
+    "Q11": {
+      "name": "Q11_important_stock",
+      "query": "SELECT ps_partkey, sum(ps_supplycost * ps_availqty) as value FROM partsupp, supplier, nation WHERE ps_suppkey = s_suppkey AND s_nationkey = n_nationkey AND n_name = 'GERMANY' GROUP BY ps_partkey HAVING sum(ps_supplycost * ps_availqty) > (SELECT sum(ps_supplycost * ps_availqty) * 0.0001 FROM partsupp, supplier, nation WHERE ps_suppkey = s_suppkey AND s_nationkey = n_nationkey AND n_name = 'GERMANY') ORDER BY value DESC",
+      "is_large": false,
+      "features": "HAVING, subquery, 3-way JOIN, GROUP BY"
+    },
+    "Q12": {
+      "name": "Q12_shipping_modes",
+      "query": "SELECT l_shipmode, sum(CASE WHEN o_orderpriority = '1-URGENT' OR o_orderpriority = '2-HIGH' THEN 1 ELSE 0 END) as high_line_count, sum(CASE WHEN o_orderpriority <> '1-URGENT' AND o_orderpriority <> '2-HIGH' THEN 1 ELSE 0 END) as low_line_count FROM orders, lineitem WHERE o_orderkey = l_orderkey AND l_shipmode IN ('MAIL', 'SHIP') AND l_commitdate < l_receiptdate AND l_shipdate < l_commitdate AND l_receiptdate >= DATE '1994-01-01' AND l_receiptdate < DATE '1994-01-01' + INTERVAL '1' YEAR GROUP BY l_shipmode ORDER BY l_shipmode",
+      "is_large": false,
+      "features": "CASE WHEN, IN, DATE filter, JOIN, GROUP BY"
+    },
+    "Q13": {
+      "name": "Q13_customer_distribution",
+      "query": "SELECT c_count, count(*) as custdist FROM (SELECT c_custkey, count(o_orderkey) as c_count FROM customer LEFT OUTER JOIN orders ON c_custkey = o_custkey AND o_comment NOT LIKE '%special%requests%' GROUP BY c_custkey) as c_orders GROUP BY c_count ORDER BY custdist DESC, c_count DESC",
+      "is_large": false,
+      "features": "LEFT OUTER JOIN, subquery, LIKE, GROUP BY"
+    },
+    "Q14": {
+      "name": "Q14_promotion_effect",
+      "query": "SELECT 100.00 * sum(CASE WHEN p_type LIKE 'PROMO%' THEN l_extendedprice * (1 - l_discount) ELSE 0 END) / sum(l_extendedprice * (1 - l_discount)) as promo_revenue FROM lineitem, part WHERE l_partkey = p_partkey AND l_shipdate >= DATE '1995-09-01' AND l_shipdate < DATE '1995-09-01' + INTERVAL '1' MONTH",
+      "is_large": false,
+      "features": "CASE WHEN, LIKE, DATE filter, JOIN"
+    },
+    "Q15": {
+      "name": "Q15_top_supplier",
+      "query": "WITH revenue0 AS (SELECT l_suppkey as supplier_no, sum(l_extendedprice * (1 - l_discount)) as total_revenue FROM lineitem WHERE l_shipdate >= DATE '1996-01-01' AND l_shipdate < DATE '1996-01-01' + INTERVAL '3' MONTH GROUP BY l_suppkey) SELECT s_suppkey, s_name, s_address, s_phone, total_revenue FROM supplier, revenue0 WHERE s_suppkey = supplier_no AND total_revenue = (SELECT max(total_revenue) FROM revenue0) ORDER BY s_suppkey",
+      "is_large": false,
+      "features": "CTE, subquery, JOIN, GROUP BY"
+    },
+    "Q16": {
+      "name": "Q16_parts_supplier",
+      "query": "SELECT p_brand, p_type, p_size, count(DISTINCT ps_suppkey) as supplier_cnt FROM partsupp, part WHERE p_partkey = ps_partkey AND p_brand <> 'Brand#45' AND p_type NOT LIKE 'MEDIUM POLISHED%' AND p_size IN (49, 14, 23, 45, 19, 3, 36, 9) AND ps_suppkey NOT IN (SELECT s_suppkey FROM supplier WHERE s_comment LIKE '%Customer%Complaints%') GROUP BY p_brand, p_type, p_size ORDER BY supplier_cnt DESC, p_brand, p_type, p_size",
+      "is_large": false,
+      "features": "DISTINCT, NOT IN subquery, LIKE, GROUP BY"
+    },
+    "Q17": {
+      "name": "Q17_small_quantity_order",
+      "query": "SELECT sum(l_extendedprice) / 7.0 as avg_yearly FROM lineitem, part WHERE p_partkey = l_partkey AND p_brand = 'Brand#23' AND p_container = 'MED BOX' AND l_quantity < (SELECT 0.2 * avg(l_quantity) FROM lineitem WHERE l_partkey = p_partkey)",
+      "is_large": false,
+      "features": "correlated subquery, AVG, JOIN"
+    },
+    "Q18": {
+      "name": "Q18_large_volume_customer",
+      "query": "SELECT c_name, c_custkey, o_orderkey, o_orderdate, o_totalprice, sum(l_quantity) FROM customer, orders, lineitem WHERE o_orderkey IN (SELECT l_orderkey FROM lineitem GROUP BY l_orderkey HAVING sum(l_quantity) > 300) AND c_custkey = o_custkey AND o_orderkey = l_orderkey GROUP BY c_name, c_custkey, o_orderkey, o_orderdate, o_totalprice ORDER BY o_totalprice DESC, o_orderdate LIMIT 100",
+      "is_large": false,
+      "features": "IN subquery, HAVING, 3-way JOIN, GROUP BY, ORDER BY, LIMIT"
+    },
+    "Q19": {
+      "name": "Q19_discounted_revenue",
+      "query": "SELECT sum(l_extendedprice * (1 - l_discount)) as revenue FROM lineitem, part WHERE (p_partkey = l_partkey AND p_brand = 'Brand#12' AND p_container IN ('SM CASE', 'SM BOX', 'SM PACK', 'SM PKG') AND l_quantity >= 1 AND l_quantity <= 11 AND p_size BETWEEN 1 AND 5 AND l_shipmode IN ('AIR', 'AIR REG') AND l_shipinstruct = 'DELIVER IN PERSON') OR (p_partkey = l_partkey AND p_brand = 'Brand#23' AND p_container IN ('MED BAG', 'MED BOX', 'MED PKG', 'MED PACK') AND l_quantity >= 10 AND l_quantity <= 20 AND p_size BETWEEN 1 AND 10 AND l_shipmode IN ('AIR', 'AIR REG') AND l_shipinstruct = 'DELIVER IN PERSON') OR (p_partkey = l_partkey AND p_brand = 'Brand#34' AND p_container IN ('LG CASE', 'LG BOX', 'LG PACK', 'LG PKG') AND l_quantity >= 20 AND l_quantity <= 30 AND p_size BETWEEN 1 AND 15 AND l_shipmode IN ('AIR', 'AIR REG') AND l_shipinstruct = 'DELIVER IN PERSON')",
+      "is_large": false,
+      "features": "OR, BETWEEN, IN, multi-condition filter, JOIN"
+    },
+    "Q20": {
+      "name": "Q20_potential_part_promotion",
+      "query": "SELECT s_name, s_address FROM supplier, nation WHERE s_suppkey IN (SELECT ps_suppkey FROM partsupp WHERE ps_partkey IN (SELECT p_partkey FROM part WHERE p_name LIKE 'forest%') AND ps_availqty > (SELECT 0.5 * sum(l_quantity) FROM lineitem WHERE l_partkey = ps_partkey AND l_suppkey = ps_suppkey AND l_shipdate >= DATE '1994-01-01' AND l_shipdate < DATE '1994-01-01' + INTERVAL '1' YEAR)) AND s_nationkey = n_nationkey AND n_name = 'CANADA' ORDER BY s_name",
+      "is_large": false,
+      "features": "EXISTS, IN subquery, LIKE, DATE filter"
+    },
+    "Q21": {
+      "name": "Q21_suppliers_kept_waiting",
+      "query": "SELECT s_name, count(*) as numwait FROM supplier, lineitem l1, orders, nation WHERE s_suppkey = l1.l_suppkey AND o_orderkey = l1.l_orderkey AND o_orderstatus = 'F' AND l1.l_receiptdate > l1.l_commitdate AND EXISTS (SELECT * FROM lineitem l2 WHERE l2.l_orderkey = l1.l_orderkey AND l2.l_suppkey <> l1.l_suppkey) AND NOT EXISTS (SELECT * FROM lineitem l3 WHERE l3.l_orderkey = l1.l_orderkey AND l3.l_suppkey <> l1.l_suppkey AND l3.l_receiptdate > l3.l_commitdate) AND s_nationkey = n_nationkey AND n_name = 'SAUDI ARABIA' GROUP BY s_name ORDER BY numwait DESC, s_name LIMIT 100",
+      "is_large": false,
+      "features": "EXISTS, NOT EXISTS, multi-join, GROUP BY, ORDER BY, LIMIT"
+    },
+    "Q22": {
+      "name": "Q22_global_sales_opportunity",
+      "query": "SELECT cntrycode, count(*) as numcust, sum(c_acctbal) as totacctbal FROM (SELECT SUBSTRING(c_phone FROM 1 FOR 2) as cntrycode, c_acctbal FROM customer WHERE SUBSTRING(c_phone FROM 1 FOR 2) IN ('13', '31', '23', '29', '30', '18', '17') AND c_acctbal > (SELECT avg(c_acctbal) FROM customer WHERE c_acctbal > 0.00 AND SUBSTRING(c_phone FROM 1 FOR 2) IN ('13', '31', '23', '29', '30', '18', '17')) AND NOT EXISTS (SELECT * FROM orders WHERE o_custkey = c_custkey)) as custsale GROUP BY cntrycode ORDER BY cntrycode",
+      "is_large": false,
+      "features": "NOT EXISTS, CASE WHEN, SUBSTRING, IN subquery, GROUP BY"
+    }
+  },
+  "adapted": {
+    "Q1": {
+      "name": "Q1_pricing_summary_int",
+      "query": "SELECT l_returnflag_id, l_linestatus_id, sum(l_quantity) as sum_qty, sum(l_extendedprice) as sum_base_price, count(*) as count_order FROM lineitem_int WHERE l_shipdate_int <= 19980902 GROUP BY l_returnflag_id, l_linestatus_id;",
+      "is_large": false,
+      "features": "GROUP BY + aggregate + filter",
+      "desc": "Based on TPC-H Q1. VARCHAR group keys (l_returnflag, l_linestatus) replaced with integer IDs. DATE filter replaced with YYYYMMDD integer. Removed avg() and sum_disc_price/sum_charge aggregates. Uses _int table."
+    },
+    "Q2": {
+      "name": "Q2_minimum_cost_supplier_int",
+      "query": "SELECT c.s_acctbal, c.n_name_id, c.p_partkey, c.ps_supplycost FROM (SELECT s.s_acctbal, n.n_name_id, p.p_partkey, ps.ps_supplycost FROM part_int p INNER JOIN partsupp_int ps ON p.p_partkey = ps.ps_partkey INNER JOIN supplier_int s ON s.s_suppkey = ps.ps_suppkey INNER JOIN nation_int n ON s.s_nationkey = n.n_nationkey INNER JOIN region_int r ON n.n_regionkey = r.r_regionkey WHERE p.p_size = 15 AND p.p_type_id % 10 = 3 AND r.r_name_id = 3) c INNER JOIN (SELECT ps.ps_partkey, min(ps.ps_supplycost) as min_supplycost FROM partsupp_int ps INNER JOIN supplier_int s ON s.s_suppkey = ps.ps_suppkey INNER JOIN nation_int n ON s.s_nationkey = n.n_nationkey INNER JOIN region_int r ON n.n_regionkey = r.r_regionkey WHERE r.r_name_id = 3 GROUP BY ps.ps_partkey) m ON c.p_partkey = m.ps_partkey AND c.ps_supplycost = m.min_supplycost ORDER BY c.s_acctbal DESC, c.n_name_id, c.p_partkey LIMIT 100",
+      "is_large": false,
+      "features": "5-way JOIN + grouped MIN rewrite + encoded type suffix + ORDER BY + LIMIT",
+      "desc": "Based on TPC-H Q2. p_type LIKE '%BRASS' is represented by p_type_id % 10 = 3, where the material component is BRASS. Region EUROPE is r_name_id=3. Supplier text output columns and p_mfgr are omitted. Correlated minimum-cost subquery is rewritten as a grouped min-supplycost join. Uses _int tables."
+    },
+    "Q3": {
+      "name": "Q3_shipping_priority_int",
+      "query": "SELECT l.l_orderkey, sum(l.l_extendedprice * (1.0 - l.l_discount)) as revenue, o.o_orderdate_int, o.o_shippriority FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey INNER JOIN customer_int c ON c.c_custkey = o.o_custkey WHERE c.c_mktsegment_id = 2 AND o.o_orderdate_int < 19950315 AND l.l_shipdate_int > 19950315 GROUP BY l.l_orderkey, o.o_orderdate_int, o.o_shippriority ORDER BY revenue DESC, o.o_orderdate_int",
+      "is_large": false,
+      "features": "3-way JOIN + filter + GROUP BY + ORDER BY",
+      "desc": "Based on TPC-H Q3. VARCHAR filter (c_mktsegment='BUILDING') replaced with integer ID (c_mktsegment_id=2). DATE filters replaced with YYYYMMDD integers. Removed LIMIT 10. Uses _int tables."
+    },
+    "Q4": {
+      "name": "Q4_order_priority_int",
+      "query": "SELECT o.o_orderpriority_id, count(*) as order_count FROM orders_int o INNER JOIN (SELECT l_orderkey FROM lineitem_int WHERE l_commitdate_int < l_receiptdate_int GROUP BY l_orderkey) li ON o.o_orderkey = li.l_orderkey WHERE o.o_orderdate_int >= 19930701 AND o.o_orderdate_int < 19931001 GROUP BY o.o_orderpriority_id ORDER BY o.o_orderpriority_id",
+      "is_large": false,
+      "features": "semi-join rewrite + DATE filter + GROUP BY + COUNT + ORDER BY",
+      "desc": "Based on TPC-H Q4. VARCHAR order priority replaced with o_orderpriority_id. DATE filters replaced with YYYYMMDD integers. EXISTS is preserved as a semi-join by grouping qualifying lineitem order keys before joining to orders. Uses _int tables."
+    },
+    "Q5": {
+      "name": "Q5_local_supplier_volume_int",
+      "query": "SELECT n.n_name_id, sum(l.l_extendedprice * (1.0 - l.l_discount)) as revenue FROM lineitem_int l INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey INNER JOIN customer_int c ON c.c_custkey = o.o_custkey INNER JOIN supplier_int s ON l.l_suppkey = s.s_suppkey AND c.c_nationkey = s.s_nationkey INNER JOIN nation_int n ON s.s_nationkey = n.n_nationkey INNER JOIN region_int r ON n.n_regionkey = r.r_regionkey WHERE r.r_name_id = 2 AND o.o_orderdate_int >= 19940101 AND o.o_orderdate_int < 19950101 GROUP BY n.n_name_id ORDER BY revenue DESC",
+      "is_large": false,
+      "features": "6-way JOIN + filter + GROUP BY + ORDER BY",
+      "desc": "Based on TPC-H Q5. VARCHAR group key (n_name) replaced with n_name_id. VARCHAR filter (r_name='ASIA') replaced with integer ID (r_name_id=2). DATE filters replaced with YYYYMMDD integers. Uses _int tables."
+    },
+    "Q6": {
+      "name": "Q6_forecasting_revenue_int",
+      "query": "SELECT sum(l_extendedprice * l_discount) as revenue FROM lineitem_int WHERE l_shipdate_int >= 19940101 AND l_shipdate_int < 19950101 AND l_discount > 0.05 AND l_discount < 0.07 AND l_quantity < 24.0",
+      "is_large": false,
+      "features": "filter + SUM",
+      "desc": "Based on TPC-H Q6. DATE filter replaced with YYYYMMDD integer. BETWEEN replaced with explicit > and < comparisons (GPU does not support BETWEEN). Uses _int table."
+    },
+    "Q7": {
+      "name": "Q7_volume_shipping_int",
+      "query": "SELECT supp_nation, cust_nation, l_year, sum(volume) as revenue FROM (SELECT n1.n_name_id as supp_nation, n2.n_name_id as cust_nation, CAST(l.l_shipdate_int / 10000 AS INTEGER) as l_year, l.l_extendedprice * (1.0 - l.l_discount) as volume FROM supplier_int s INNER JOIN lineitem_int l ON s.s_suppkey = l.l_suppkey INNER JOIN orders_int o ON o.o_orderkey = l.l_orderkey INNER JOIN customer_int c ON c.c_custkey = o.o_custkey INNER JOIN nation_int n1 ON s.s_nationkey = n1.n_nationkey INNER JOIN nation_int n2 ON c.c_nationkey = n2.n_nationkey WHERE n1.n_name_id >= 6 AND n1.n_name_id <= 7 AND n2.n_name_id >= 6 AND n2.n_name_id <= 7 AND n1.n_name_id <> n2.n_name_id AND l.l_shipdate_int >= 19950101 AND l.l_shipdate_int <= 19961231) shipping GROUP BY supp_nation, cust_nation, l_year ORDER BY supp_nation, cust_nation, l_year",
+      "is_large": false,
+      "features": "6-way JOIN + numeric pair filter + projected year + GROUP BY + SUM + ORDER BY",
+      "desc": "Based on TPC-H Q7. Nation names FRANCE/GERMANY replaced with n_name_id values 6/7. DATE range replaced with YYYYMMDD integers, and EXTRACT(YEAR) is replaced with integer year projection from l_shipdate_int. The original OR predicate is expressed as both nation IDs in [6,7] plus inequality. Uses _int tables."
+    },
+    "Q8": {
+      "name": "Q8_national_market_share_int",
+      "query": "SELECT total.o_year, CAST(brazil.brazil_volume_cents AS DOUBLE) / CAST(total.total_volume_cents AS DOUBLE) as mkt_share FROM (SELECT CAST(o.o_orderdate_int / 10000 AS INTEGER) as o_year, sum(CAST(l.l_extendedprice * (1.0 - l.l_discount) * 100 AS INTEGER)) as total_volume_cents FROM part_int p INNER JOIN lineitem_int l ON p.p_partkey = l.l_partkey INNER JOIN supplier_int s ON s.s_suppkey = l.l_suppkey INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey INNER JOIN customer_int c ON o.o_custkey = c.c_custkey INNER JOIN nation_int n1 ON c.c_nationkey = n1.n_nationkey INNER JOIN region_int r ON n1.n_regionkey = r.r_regionkey INNER JOIN nation_int n2 ON s.s_nationkey = n2.n_nationkey WHERE r.r_name_id = 1 AND o.o_orderdate_int >= 19950101 AND o.o_orderdate_int <= 19961231 AND p.p_type_id = 514 GROUP BY o_year) total INNER JOIN (SELECT CAST(o.o_orderdate_int / 10000 AS INTEGER) as o_year, sum(CAST(l.l_extendedprice * (1.0 - l.l_discount) * 100 AS INTEGER)) as brazil_volume_cents FROM part_int p INNER JOIN lineitem_int l ON p.p_partkey = l.l_partkey INNER JOIN supplier_int s ON s.s_suppkey = l.l_suppkey INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey INNER JOIN customer_int c ON o.o_custkey = c.c_custkey INNER JOIN nation_int n1 ON c.c_nationkey = n1.n_nationkey INNER JOIN region_int r ON n1.n_regionkey = r.r_regionkey INNER JOIN nation_int n2 ON s.s_nationkey = n2.n_nationkey WHERE r.r_name_id = 1 AND n2.n_name_id = 2 AND o.o_orderdate_int >= 19950101 AND o.o_orderdate_int <= 19961231 AND p.p_type_id = 514 GROUP BY o_year) brazil ON total.o_year = brazil.o_year ORDER BY total.o_year",
+      "is_large": false,
+      "features": "8-way JOIN + encoded part type + grouped ratio rewrite + ORDER BY",
+      "desc": "Based on TPC-H Q8. p_type='ECONOMY ANODIZED STEEL' is p_type_id=514, region AMERICA is r_name_id=1, and BRAZIL is n_name_id=2. CASE aggregation is rewritten as two grouped revenue subqueries joined by order year. Uses _int tables."
+    },
+    "Q10": {
+      "name": "Q10_returned_item_int",
+      "query": "SELECT c.c_custkey, sum(l.l_extendedprice * (1.0 - l.l_discount)) as revenue, c.c_acctbal, n.n_nationkey FROM customer_int c INNER JOIN orders_int o ON c.c_custkey = o.o_custkey INNER JOIN lineitem_int l ON l.l_orderkey = o.o_orderkey INNER JOIN nation_int n ON c.c_nationkey = n.n_nationkey WHERE o.o_orderdate_int >= 19931001 AND o.o_orderdate_int < 19940101 AND l.l_returnflag_id = 3 GROUP BY c.c_custkey, c.c_acctbal, n.n_nationkey ORDER BY revenue DESC",
+      "is_large": false,
+      "features": "4-way JOIN + filter + GROUP BY + SUM + ORDER BY",
+      "desc": "Based on TPC-H Q10. VARCHAR columns (c_name, n_name, c_address, c_phone, c_comment) removed from SELECT and GROUP BY. VARCHAR filter (l_returnflag='R') replaced with integer ID (l_returnflag_id=3). DATE filter replaced with YYYYMMDD integer. Removed LIMIT 20. Uses _int tables."
+    },
+    "Q11": {
+      "name": "Q11_important_stock_int",
+      "query": "SELECT ps.ps_partkey, sum(ps.ps_supplycost * ps.ps_availqty) as value FROM partsupp_int ps INNER JOIN supplier_int s ON ps.ps_suppkey = s.s_suppkey INNER JOIN nation_int n ON s.s_nationkey = n.n_nationkey WHERE n.n_name_id = 7 GROUP BY ps.ps_partkey ORDER BY value DESC",
+      "is_large": false,
+      "features": "3-way JOIN + filter + GROUP BY + SUM + ORDER BY",
+      "desc": "Based on TPC-H Q11. VARCHAR filter (n_name='GERMANY') replaced with integer ID (n_name_id=7). Removed HAVING subquery (GPU does not support HAVING). Uses _int tables."
+    },
+    "Q12": {
+      "name": "Q12_shipping_modes_int",
+      "query": "SELECT l.l_shipmode_id, count(*) as cnt FROM orders_int o INNER JOIN lineitem_int l ON o.o_orderkey = l.l_orderkey WHERE l.l_shipmode_id >= 4 AND l.l_shipmode_id <= 6 AND l.l_commitdate_int < l.l_receiptdate_int AND l.l_shipdate_int < l.l_commitdate_int AND l.l_receiptdate_int >= 19940101 AND l.l_receiptdate_int < 19950101 GROUP BY l.l_shipmode_id",
+      "is_large": false,
+      "features": "2-way JOIN + filter + GROUP BY + COUNT",
+      "desc": "Based on TPC-H Q12. VARCHAR IN filter (l_shipmode IN ('MAIL','SHIP')) replaced with integer range (l_shipmode_id>=4 AND <=6). Removed CASE WHEN aggregates (high_line_count, low_line_count), simplified to COUNT(*). DATE filters replaced with YYYYMMDD integers. Uses _int tables."
+    },
+    "Q14": {
+      "name": "Q14_promotion_effect_int",
+      "query": "SELECT sum(l.l_extendedprice * (1.0 - l.l_discount)) as total_revenue FROM lineitem_int l INNER JOIN part_int p ON l.l_partkey = p.p_partkey WHERE l.l_shipdate_int >= 19950901 AND l.l_shipdate_int < 19951001",
+      "is_large": false,
+      "features": "2-way JOIN + filter + ungrouped SUM",
+      "desc": "Based on TPC-H Q14. Removed CASE WHEN with LIKE (promo split). Simplified to total revenue only (no promo percentage). DATE filter replaced with YYYYMMDD integer. Uses _int tables."
+    },
+    "Q15": {
+      "name": "Q15_top_supplier_int",
+      "query": "SELECT s.s_suppkey, r.total_revenue FROM supplier_int s INNER JOIN (SELECT l_suppkey as supplier_no, sum(l_extendedprice * (1.0 - l_discount)) as total_revenue FROM lineitem_int WHERE l_shipdate_int >= 19960101 AND l_shipdate_int < 19960401 GROUP BY l_suppkey) r ON s.s_suppkey = r.supplier_no ORDER BY r.total_revenue DESC, s.s_suppkey LIMIT 1",
+      "is_large": false,
+      "features": "GROUP BY + SUM + JOIN + ORDER BY + LIMIT",
+      "desc": "Based on TPC-H Q15. Supplier text columns are omitted. The CTE and max subquery are rewritten as an ORDER BY total_revenue DESC LIMIT 1 top-supplier query over the grouped supplier revenue. Uses _int tables."
+    },
+    "Q17": {
+      "name": "Q17_small_quantity_order_int",
+      "query": "SELECT sum(l.l_extendedprice) as avg_yearly FROM lineitem_int l INNER JOIN (SELECT l2.l_partkey, avg(l2.l_quantity) as qty_threshold FROM lineitem_int l2 INNER JOIN part_int p ON p.p_partkey = l2.l_partkey WHERE p.p_brand_id = 23 AND p.p_container_id = 202 GROUP BY l2.l_partkey) avg_l ON avg_l.l_partkey = l.l_partkey WHERE l.l_quantity < avg_l.qty_threshold",
+      "is_large": false,
+      "features": "JOIN + grouped AVG rewrite + encoded container + ungrouped SUM",
+      "desc": "Based on TPC-H Q17. p_brand='Brand#23' is p_brand_id=23 and p_container='MED BOX' is p_container_id=202. The correlated average subquery is rewritten as a grouped threshold table joined by part key, with the part filter pushed before the grouped average so only relevant parts are aggregated. Uses _int tables."
+    },
+    "Q18": {
+      "name": "Q18_large_volume_customer_int",
+      "query": "SELECT c.c_custkey, o.o_orderkey, o.o_orderdate_int, o.o_totalprice, oq.sum_quantity FROM (SELECT l_orderkey, sum(l_quantity) as sum_quantity FROM lineitem_int GROUP BY l_orderkey HAVING sum(l_quantity) > 300.0) oq INNER JOIN orders_int o ON oq.l_orderkey = o.o_orderkey INNER JOIN customer_int c ON o.o_custkey = c.c_custkey ORDER BY o.o_totalprice DESC, o.o_orderdate_int LIMIT 100",
+      "is_large": false,
+      "features": "3-way JOIN + GROUP BY + HAVING + ORDER BY + LIMIT",
+      "desc": "Based on TPC-H Q18. VARCHAR c_name removed from SELECT/GROUP BY; DATE output replaced with o_orderdate_int. The IN/HAVING subquery is expressed as an equivalent grouped lineitem subquery joined to orders and customer. Uses _int tables."
+    },
+    "Q19": {
+      "name": "Q19_discounted_revenue_int",
+      "query": "SELECT sum(l.l_extendedprice * (1.0 - l.l_discount)) as revenue FROM lineitem_int l INNER JOIN part_int p ON p.p_partkey = l.l_partkey WHERE l.l_shipmode_id IN (1, 2) AND l.l_shipinstruct_id = 1 AND ((p.p_brand_id = 12 AND p.p_container_id IN (101, 102, 105, 106) AND l.l_quantity >= 1.0 AND l.l_quantity <= 11.0 AND p.p_size >= 1 AND p.p_size <= 5) OR (p.p_brand_id = 23 AND p.p_container_id IN (203, 202, 206, 205) AND l.l_quantity >= 10.0 AND l.l_quantity <= 20.0 AND p.p_size >= 1 AND p.p_size <= 10) OR (p.p_brand_id = 34 AND p.p_container_id IN (301, 302, 305, 306) AND l.l_quantity >= 20.0 AND l.l_quantity <= 30.0 AND p.p_size >= 1 AND p.p_size <= 15))",
+      "is_large": false,
+      "features": "JOIN + OR filter + encoded brand/container/ship fields + SUM",
+      "desc": "Based on TPC-H Q19. Brand, container, shipmode, and shipinstruct predicates are represented by integer IDs. The join predicate is factored out of the OR branches. Uses _int tables."
+    }
+  }
+}

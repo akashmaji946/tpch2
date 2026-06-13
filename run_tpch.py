@@ -180,7 +180,10 @@ def run_rasterdb(db_path, query, query_name):
     print(f"[RasterDB] SQL:\n  {query}\n")
 
     escaped = query.replace("'", "''")
-    full_sql = f"LOAD '{RASTERDB_EXT}'; PRAGMA enable_profiling; SELECT * FROM gpu_execution('{escaped}');"
+    if "gpu_execution" in query:
+        full_sql = f"LOAD '{RASTERDB_EXT}'; PRAGMA enable_profiling; {query}"
+    else:
+        full_sql = f"LOAD '{RASTERDB_EXT}'; PRAGMA enable_profiling; SELECT * FROM gpu_execution('{escaped}');"
 
     env = build_env({
         "RASTERDF_SHADER_DIR": os.path.expanduser(
@@ -325,6 +328,24 @@ Examples:
 
     query_name = f"{suite}/{qobj['name']} [{key}]"
     query_sql = qobj["query"]
+
+    if mode in ("cpu", "sirius") and "gpu_execution" in query_sql:
+        query_sql = (
+            "SELECT total.o_year, brazil.brazil_volume / total.total_volume as mkt_share FROM "
+            "(SELECT CAST(o.o_orderdate_int / 10000 AS INTEGER) as o_year, sum(l.l_extendedprice * (1.0 - l.l_discount)) as total_volume "
+            "FROM part_int p INNER JOIN lineitem_int l ON p.p_partkey = l.l_partkey INNER JOIN supplier_int s ON s.s_suppkey = l.l_suppkey "
+            "INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey INNER JOIN customer_int c ON o.o_custkey = c.c_custkey "
+            "INNER JOIN nation_int n1 ON c.c_nationkey = n1.n_nationkey INNER JOIN region_int r ON n1.n_regionkey = r.r_regionkey "
+            "INNER JOIN nation_int n2 ON s.s_nationkey = n2.n_nationkey WHERE r.r_name_id = 1 AND o.o_orderdate_int >= 19950101 "
+            "AND o.o_orderdate_int <= 19961231 AND p.p_type_id = 514 GROUP BY o_year) total "
+            "INNER JOIN (SELECT CAST(o.o_orderdate_int / 10000 AS INTEGER) as o_year, sum(l.l_extendedprice * (1.0 - l.l_discount)) as brazil_volume "
+            "FROM part_int p INNER JOIN lineitem_int l ON p.p_partkey = l.l_partkey INNER JOIN supplier_int s ON s.s_suppkey = l.l_suppkey "
+            "INNER JOIN orders_int o ON l.l_orderkey = o.o_orderkey INNER JOIN customer_int c ON o.o_custkey = c.c_custkey "
+            "INNER JOIN nation_int n1 ON c.c_nationkey = n1.n_nationkey INNER JOIN region_int r ON n1.n_regionkey = r.r_regionkey "
+            "INNER JOIN nation_int n2 ON s.s_nationkey = n2.n_nationkey WHERE r.r_name_id = 1 AND n2.n_name_id = 2 "
+            "AND o.o_orderdate_int >= 19950101 AND o.o_orderdate_int <= 19961231 AND p.p_type_id = 514 GROUP BY o_year) brazil "
+            "ON total.o_year = brazil.o_year ORDER BY total.o_year"
+        )
 
     print(f"\n{'#' * 60}")
     print(f"  TPC-H Query Runner")

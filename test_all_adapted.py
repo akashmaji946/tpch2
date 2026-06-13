@@ -7,7 +7,7 @@ RASTERDB_CLI = os.path.expanduser('~/Device/IMPORTANT/rasterdb/build/release/duc
 RASTERDB_EXT = os.path.expanduser('~/Device/IMPORTANT/rasterdb/build/release/extension/rasterdb/rasterdb.duckdb_extension')
 DB = '~/Device/IMPORTANT/tpch/tpch_sf1.db'
 
-with open(QUERIES_JSON) as f:
+with open(os.path.expanduser(QUERIES_JSON)) as f:
     queries = json.load(f)
 
 env = os.environ.copy()

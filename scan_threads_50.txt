@@ -1,0 +1,222 @@
+USE_RDB_PARALLEL_SCAN_THREADS=1
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               198.94      GPU OK (3518.94ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             757.26      GPU OK (3484.52ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1140.78      GPU OK (3087.99ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         555.69      GPU OK (3604.58ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           134.86      GPU OK (2776.36ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               689.66      GPU OK (4148.01ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1055.75      GPU OK (2963.74ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              382.74      GPU OK ( 394.92ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               275.72      GPU OK (2850.63ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             246.01      GPU OK (2904.97ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1512.96      GPU OK (2852.46ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=2
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               202.93      GPU OK (2104.63ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             769.00      GPU OK (1943.44ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1133.60      GPU OK (2281.99ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         561.67      GPU OK (2042.87ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           134.94      GPU OK (1432.41ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               677.59      GPU OK (2303.67ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1036.37      GPU OK (1568.28ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              373.36      GPU OK ( 248.81ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               276.25      GPU OK (1609.17ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             245.70      GPU OK (1550.93ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1514.42      GPU OK (2109.57ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=4
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               207.82      GPU OK (1278.42ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             753.27      GPU OK (1049.56ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1181.31      GPU OK (1758.39ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         560.97      GPU OK (1360.15ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           135.20      GPU OK ( 778.95ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               683.22      GPU OK (1297.83ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1053.45      GPU OK ( 839.07ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              371.15      GPU OK ( 175.15ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               279.14      GPU OK ( 987.60ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             242.74      GPU OK ( 846.49ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1514.82      GPU OK (1594.36ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=6
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               205.02      GPU OK (1006.58ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             760.21      GPU OK ( 786.33ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1124.51      GPU OK (1647.08ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         554.07      GPU OK ( 948.78ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           134.49      GPU OK ( 559.45ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               678.08      GPU OK ( 947.45ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1049.25      GPU OK ( 656.65ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              371.33      GPU OK ( 151.63ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               281.29      GPU OK ( 620.72ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             243.24      GPU OK ( 607.15ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1519.53      GPU OK (1484.08ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=8
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               202.82      GPU OK ( 783.96ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             773.84      GPU OK ( 711.60ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1148.27      GPU OK (1628.89ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         554.65      GPU OK ( 810.93ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           135.84      GPU OK ( 455.66ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               679.75      GPU OK ( 862.10ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1064.23      GPU OK ( 539.61ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              373.62      GPU OK ( 143.14ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               277.86      GPU OK ( 546.07ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             243.84      GPU OK ( 526.19ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1507.41      GPU OK (1425.72ms)                     ---       ✓      -
+========================================================================================================================
+
+
+USE_RDB_PARALLEL_SCAN_THREADS=10
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               199.34      GPU OK ( 735.53ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             750.91      GPU OK ( 639.17ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1133.14      GPU OK (1596.06ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         548.05      GPU OK ( 773.04ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           135.41      GPU OK ( 414.61ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               682.65      GPU OK ( 768.55ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1043.94      GPU OK ( 497.99ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              372.70      GPU OK ( 138.08ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               279.24      GPU OK ( 513.35ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             244.90      GPU OK ( 498.39ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1516.86      GPU OK (1385.83ms)                     ---       ✓      -
+========================================================================================================================
+
+
+USE_RDB_PARALLEL_SCAN_THREADS=12
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               202.82      GPU OK ( 707.24ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             758.53      GPU OK ( 607.14ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1137.25      GPU OK (1565.72ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         566.24      GPU OK ( 743.73ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           136.08      GPU OK ( 371.99ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               681.06      GPU OK ( 735.35ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1056.78      GPU OK ( 463.28ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              373.20      GPU OK ( 135.08ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               279.89      GPU OK ( 480.40ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             243.92      GPU OK ( 456.83ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1513.82      GPU OK (1342.54ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=14
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               205.17      GPU OK ( 696.87ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             762.07      GPU OK ( 584.41ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1141.77      GPU OK (1560.47ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         569.43      GPU OK ( 731.01ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           137.59      GPU OK ( 358.94ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               681.57      GPU OK ( 725.76ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1061.39      GPU OK ( 442.27ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              378.69      GPU OK ( 134.65ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               279.98      GPU OK ( 469.35ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             245.00      GPU OK ( 432.58ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1510.81      GPU OK (1291.52ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=16
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               200.66      GPU OK ( 690.44ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             759.98      GPU OK ( 583.14ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1136.24      GPU OK (1557.36ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         560.15      GPU OK ( 727.25ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           136.12      GPU OK ( 347.55ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               681.48      GPU OK ( 767.41ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1069.10      GPU OK ( 440.71ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              373.69      GPU OK ( 133.30ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               279.02      GPU OK ( 463.66ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             244.40      GPU OK ( 430.54ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1515.28      GPU OK (1280.06ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=18
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int               204.15      GPU OK ( 688.99ms)                     ---       ✓      -
+  Q3    Q3_shipping_priority_int             756.95      GPU OK ( 580.06ms)                     ---       ✓      -
+  Q4    Q4_order_priority_int               1144.02      GPU OK (1556.93ms)                     ---       ✓      -
+  Q5    Q5_local_supplier_volume_int         555.78      GPU OK ( 726.68ms)                     ---       ✓      -
+  Q6    Q6_forecasting_revenue_int           135.71      GPU OK ( 333.57ms)                     ---       ✓      -
+  Q7    Q7_volume_shipping_int               680.88      GPU OK ( 729.49ms)                     ---       ✓      -
+  Q10   Q10_returned_item_int               1067.48      GPU OK ( 428.72ms)                     ---       ✓      -
+  Q11   Q11_important_stock_int              377.36      GPU OK ( 133.36ms)                     ---       ✓      -
+  Q12   Q12_shipping_modes_int               277.18      GPU OK ( 453.10ms)                     ---       ✓      -
+  Q14   Q14_promotion_effect_int             242.49      GPU OK ( 424.20ms)                     ---       ✓      -
+  Q18   Q18_large_volume_customer_int       1509.97      GPU OK (1272.52ms)                     ---       ✓      -
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=20
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int                  ---      GPU OK ( 684.39ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 574.44ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK (1556.70ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 724.14ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 327.75ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 701.28ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 415.84ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK ( 131.76ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 455.74ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 423.30ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK (1255.56ms)                     ---       -    ---
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=22
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int                  ---      GPU OK ( 665.88ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 572.57ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK (1568.34ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 723.70ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 327.50ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 702.73ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 432.16ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK ( 134.68ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 463.81ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 438.38ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK (1232.17ms)                     ---       -    ---
+========================================================================================================================
+
+USE_RDB_PARALLEL_SCAN_THREADS=24
+========================================================================================================================
+  Query Name                               CPU (ms)                RasterDB                  Sirius    RDB✓   SIR✓
+========================================================================================================================
+  Q1    Q1_pricing_summary_int                  ---      GPU OK ( 723.08ms)                     ---       -    ---
+  Q3    Q3_shipping_priority_int                ---      GPU OK ( 600.98ms)                     ---       -    ---
+  Q4    Q4_order_priority_int                   ---      GPU OK (1582.28ms)                     ---       -    ---
+  Q5    Q5_local_supplier_volume_int            ---      GPU OK ( 750.46ms)                     ---       -    ---
+  Q6    Q6_forecasting_revenue_int              ---      GPU OK ( 378.35ms)                     ---       -    ---
+  Q7    Q7_volume_shipping_int                  ---      GPU OK ( 746.60ms)                     ---       -    ---
+  Q10   Q10_returned_item_int                   ---      GPU OK ( 455.88ms)                     ---       -    ---
+  Q11   Q11_important_stock_int                 ---      GPU OK ( 135.16ms)                     ---       -    ---
+  Q12   Q12_shipping_modes_int                  ---      GPU OK ( 512.98ms)                     ---       -    ---
+  Q14   Q14_promotion_effect_int                ---      GPU OK ( 456.39ms)                     ---       -    ---
+  Q18   Q18_large_volume_customer_int           ---      GPU OK (1243.21ms)                     ---       -    ---
+========================================================================================================================

@@ -23,7 +23,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 QUERIES_JSON = os.path.join(SCRIPT_DIR, "tpch_queries.json")
 
 # pick the tpch USE
-DB = os.path.join(SCRIPT_DIR, "tpch_sf25.db")
+DB = os.path.join(SCRIPT_DIR, "tpch_sf50.db")
 
 SIRIUS_EXT = os.path.expanduser(
     "~/Device/IMPORTANT/sirius/build/release/extension/sirius/sirius.duckdb_extension"
@@ -49,7 +49,11 @@ ANSI_RE = re.compile(r'\x1b\[[0-9;]*m')
 WARM_UP = 1
 RUNS = 3
 
-CPU_MAX_THREADS = 16
+RUN_CPU = False
+RUN_SIRIUS = False
+RUN_RASTERB = True
+
+CPU_MAX_THREADS = 24
 CPU_MEMORY_LIMIT = "24GB"
 
 
@@ -149,13 +153,29 @@ def run_gpu_cli(cli, ext, sql, mode_name, extra_env=None):
         m = re.search(r"TOTAL gpu_execute\s+([\d.]+)\s*ms", combined)
         if m:
             time_ms = float(m.group(1))
+        else:
+            m = re.search(r"Total Time:\s+([\d.]+)s", combined)
+            if m:
+                time_ms = float(m.group(1)) * 1000.0
+            else:
+                m = re.search(r"Total Time:\s+([\d.]+)ms", combined)
+                if m:
+                    time_ms = float(m.group(1))
 
         # fallback
-        if "fallback to CPU" in combined or "GPU error" in combined:
+        if (
+            "fallback to CPU" in combined
+            or "GPU error" in combined
+            or "CPU-only mode" in combined
+            or "executing query on DuckDB CPU" in combined
+        ):
             return [], time_ms, "FALLBACK"
 
         # no gpu
-        if "executed on GPU" not in combined and "TOTAL gpu_execute" not in combined:
+        if (
+            "executed on GPU" not in combined
+            and "TOTAL gpu_execute" not in combined
+        ):
             return [], time_ms, "NO GPU"
 
         # parse output rows
@@ -279,7 +299,7 @@ def main():
         )
     }
 
-    sep = "=" * 160
+    sep = "=" * 120
 
     print()
     print(sep)
@@ -317,37 +337,50 @@ def main():
         is_large = q.get("is_large", False)
 
         # CPU
-        cpu_rows, cpu_cols, cpu_ms, _ = run_cpu(sql)
-        total_cpu += cpu_ms
+        if RUN_CPU:
+            cpu_rows, cpu_cols, cpu_ms, _ = run_cpu(sql)
+            total_cpu += cpu_ms
+            cpu_display = f"{cpu_ms:10.2f}"
+        else:
+            cpu_rows, cpu_cols, cpu_ms = [], [], 0
+            cpu_display = f"{'---':>10s}"
 
         # RasterDB
-        rdb_csv, rdb_ms, rdb_status = run_gpu_cli(
-            RASTERDB_CLI, RASTERDB_EXT, sql, "rasterdb", rdb_env
-        )
+        if RUN_RASTERB:
+            rdb_csv, rdb_ms, rdb_status = run_gpu_cli(
+                RASTERDB_CLI, RASTERDB_EXT, sql, "rasterdb", rdb_env
+            )
 
-        if "GPU OK" in rdb_status:
-            total_rdb += rdb_ms
-            n_rdb_gpu += 1
-            rdb_display = f"GPU OK ({rdb_ms:7.2f}ms)"
+            if "GPU OK" in rdb_status:
+                total_rdb += rdb_ms
+                n_rdb_gpu += 1
+                rdb_display = f"GPU OK ({rdb_ms:7.2f}ms)"
+            else:
+                rdb_display = rdb_status[:22]
         else:
-            rdb_display = rdb_status[:22]
+            rdb_csv, rdb_ms, rdb_status = [], 0, "SKIPPED"
+            rdb_display = "---"
 
         # Sirius
-        sir_csv, sir_ms, sir_status = run_gpu_cli(
-            SIRIUS_CLI, SIRIUS_EXT, sql, "sirius"
-        )
+        if RUN_SIRIUS:
+            sir_csv, sir_ms, sir_status = run_gpu_cli(
+                SIRIUS_CLI, SIRIUS_EXT, sql, "sirius"
+            )
 
-        if "GPU OK" in sir_status:
-            total_sir += sir_ms
-            n_sir_gpu += 1
-            sir_display = f"GPU OK ({sir_ms:7.2f}ms)"
+            if "GPU OK" in sir_status:
+                total_sir += sir_ms
+                n_sir_gpu += 1
+                sir_display = f"GPU OK ({sir_ms:7.2f}ms)"
+            else:
+                sir_display = sir_status[:22]
         else:
-            sir_display = sir_status[:22]
+            sir_csv, sir_ms, sir_status = [], 0, "SKIPPED"
+            sir_display = "---"
 
         rdb_chk = ""
         sir_chk = ""
 
-        if CHECK and (not is_large or CHECK_LARGE):
+        if CHECK and RUN_CPU and (not is_large or CHECK_LARGE):
             n_checked += 1
 
             if "GPU OK" in rdb_status:
@@ -365,16 +398,19 @@ def main():
                     n_sir_correct += 1
             else:
                 sir_chk = "-"
+        elif CHECK:
+            rdb_chk = "---" if not RUN_RASTERB else "-"
+            sir_chk = "---" if not RUN_SIRIUS else "-"
 
         if CHECK:
             print(
-                f"  {key:<5s} {name:<32s} {cpu_ms:10.2f}  "
+                f"  {key:<5s} {name:<32s} {cpu_display:>10s}  "
                 f"{rdb_display:>22s}  {sir_display:>22s}  "
                 f"{rdb_chk:>6s} {sir_chk:>6s}"
             )
         else:
             print(
-                f"  {key:<5s} {name:<32s} {cpu_ms:10.2f}  "
+                f"  {key:<5s} {name:<32s} {cpu_display:>10s}  "
                 f"{rdb_display:>22s}  {sir_display:>22s}"
             )
 
@@ -383,21 +419,36 @@ def main():
     n_total = len(adapted)
 
     print(f"\n  Summary ({n_total} queries):")
-    print(f"    CPU total         : {total_cpu:10.2f} ms")
-    print(f"    RasterDB GPU OK   : {n_rdb_gpu}/{n_total}  total: {total_rdb:10.2f} ms")
-    print(f"    Sirius   GPU OK   : {n_sir_gpu}/{n_total}  total: {total_sir:10.2f} ms")
+    if RUN_CPU:
+        print(f"    CPU total         : {total_cpu:10.2f} ms")
+    else:
+        print(f"    CPU total         :        ---")
+    if RUN_RASTERB:
+        print(f"    RasterDB GPU OK   : {n_rdb_gpu}/{n_total}  total: {total_rdb:10.2f} ms")
+    else:
+        print(f"    RasterDB GPU OK   : ---")
+    if RUN_SIRIUS:
+        print(f"    Sirius   GPU OK   : {n_sir_gpu}/{n_total}  total: {total_sir:10.2f} ms")
+    else:
+        print(f"    Sirius   GPU OK   : ---")
 
     if CHECK:
-        print(f"    RasterDB correct  : {n_rdb_correct}/{n_checked} checked")
-        print(f"    Sirius   correct  : {n_sir_correct}/{n_checked} checked")
+        if RUN_CPU and RUN_RASTERB:
+            print(f"    RasterDB correct  : {n_rdb_correct}/{n_checked} checked")
+        else:
+            print(f"    RasterDB correct  : ---")
+        if RUN_CPU and RUN_SIRIUS:
+            print(f"    Sirius   correct  : {n_sir_correct}/{n_checked} checked")
+        else:
+            print(f"    Sirius   correct  : ---")
 
-    if total_rdb > 0:
+    if RUN_CPU and RUN_RASTERB and total_rdb > 0:
         print(f"    RasterDB speedup  : {total_cpu / total_rdb:.2f}x vs CPU")
 
-    if total_sir > 0:
+    if RUN_CPU and RUN_SIRIUS and total_sir > 0:
         print(f"    Sirius   speedup  : {total_cpu / total_sir:.2f}x vs CPU")
 
-    if total_rdb > 0 and total_sir > 0:
+    if RUN_RASTERB and RUN_SIRIUS and total_rdb > 0 and total_sir > 0:
         print(f"    RasterDB vs Sirius: {total_sir / total_rdb:.2f}x")
 
     print()
